@@ -9,13 +9,16 @@ const getTodos = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  return response.data;
+  return response.data.map(todo => ({
+    ...todo,
+    completed: todo.completed ?? false, // Ensure completed property is present
+  }));
 };
 
 const createTodo = async (content, token) => {
   const response = await axios.post(
     API_URL,
-    { content },
+    { content, completed: false }, // Ensure new todos have a completed property
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -26,10 +29,10 @@ const createTodo = async (content, token) => {
   return response.data;
 };
 
-const updateTodo = async (id, content, token) => {
+const updateTodo = async (id, data, token) => {
   const response = await axios.put(
     `${API_URL}/${id}`,
-    { content },
+    data,
     {
       headers: {
         Authorization: `Bearer ${token}`,

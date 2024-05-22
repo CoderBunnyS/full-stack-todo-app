@@ -9,9 +9,9 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
   return (
     <li className={`todo-item ${todo.completed ? 'completed' : ''}`}>
       <span>{todo.content}</span>
-      <button onClick={() => onComplete(todo.id)}>Complete</button>
+      <button onClick={() => onComplete(todo._id)}>Complete</button>
       <button onClick={() => onEdit(todo)}>Edit</button>
-      <button onClick={() => onDelete(todo.id)}>Delete</button>
+      <button onClick={() => onDelete(todo._id)}>Delete</button>
     </li>
   );
 };

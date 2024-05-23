@@ -3,7 +3,7 @@ import '../assets/TodoItem.css';
 
 const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
     return (
-<li className="todo-item bg-white shadow-lg rounded-lg p-4 flex items-center justify-between mb-4">
+<li className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4">
             <div>
                 <input
                     type="checkbox"
@@ -15,7 +15,7 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
                     {todo.content}
                 </span>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 mt-4">
                 <button onClick={() => onEdit(todo)} className="text-blue-500 hover:underline">
                     Edit
                 </button>

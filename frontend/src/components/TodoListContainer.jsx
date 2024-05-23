@@ -81,29 +81,38 @@ const TodoListContainer = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-    <AddTodoForm onAdd={handleAddTodo} />
-    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
-        {todos.map(todo => (
-            <TodoItem
-                key={todo._id}
-                todo={todo}
-                onComplete={handleCompleteTodo}
-                onEdit={handleEditInit}
-                onDelete={handleDeleteTodo}
-            />
-        ))}
-    </ul>
-    {currentTodo && (
-        <EditModal
-            isOpen={isEditing}
-            onClose={handleEditCancel}
-            todo={currentTodo}
-            onSave={handleEditSave}
-        />
-    )}
-</div>
-  );
+    <div className="container mx-auto px-4 py-8 w-full">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-bold text-white">My To-Do List</h1>
+                <button
+                    onClick={() => logout({ returnTo: window.location.origin })}
+                    className="logout-button py-2 px-4 rounded"
+                >
+                    Logout
+                </button>
+            </div>
+            <AddTodoForm onAdd={handleAddTodo} />
+            <ul>
+                {todos.map(todo => (
+                    <TodoItem
+                        key={todo._id}
+                        todo={todo}
+                        onComplete={handleCompleteTodo}
+                        onEdit={handleEditInit}
+                        onDelete={handleDeleteTodo}
+                    />
+                ))}
+            </ul>
+            {currentTodo && (
+                <EditModal
+                    isOpen={isEditing}
+                    onClose={handleEditCancel}
+                    todo={currentTodo}
+                    onSave={handleEditSave}
+                />
+            )}
+        </div>
+    );
 };
 
 export default TodoListContainer;

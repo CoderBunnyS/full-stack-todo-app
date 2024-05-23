@@ -11,7 +11,9 @@
     padding: 1rem;
     width: 100%;
     margin-bottom: 1rem;
+    color: #333;
 }
+
 
 .add-todo-form {
     background: linear-gradient(to right, #007bff, #6a0dad);

@@ -81,34 +81,28 @@ const TodoListContainer = () => {
   };
 
   return (
-    <div className="todo-list-container p-6 bg-gray-100 min-h-screen">
-      <button
-        className="bg-red-500 text-white font-semibold py-2 px-4 rounded hover:bg-red-700 transition duration-300 mb-4"
-        onClick={() => logout({ returnTo: window.location.origin })}
-      >
-        Logout
-      </button>
-      <AddTodoForm onAdd={handleAddTodo} />
-      <ul className="todo-list">
+    <div className="container mx-auto px-4 py-8">
+    <AddTodoForm onAdd={handleAddTodo} />
+    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
         {todos.map(todo => (
-          <TodoItem
-            key={todo._id}
-            todo={todo}
-            onComplete={handleCompleteTodo}
-            onEdit={handleEditInit}
-            onDelete={handleDeleteTodo}
-          />
+            <TodoItem
+                key={todo._id}
+                todo={todo}
+                onComplete={handleCompleteTodo}
+                onEdit={handleEditInit}
+                onDelete={handleDeleteTodo}
+            />
         ))}
-      </ul>
-      {currentTodo && (
+    </ul>
+    {currentTodo && (
         <EditModal
-          isOpen={isEditing}
-          onClose={handleEditCancel}
-          todo={currentTodo}
-          onSave={handleEditSave}
+            isOpen={isEditing}
+            onClose={handleEditCancel}
+            todo={currentTodo}
+            onSave={handleEditSave}
         />
-      )}
-    </div>
+    )}
+</div>
   );
 };
 

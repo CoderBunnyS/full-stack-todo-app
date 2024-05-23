@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import '../src/index.css';
+import './index.css';
 import App from './App';
 import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -11,8 +11,16 @@ const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
 
+  const onRedirectCallback = (appState) => {
+    console.log('Redirect callback:', appState);
+    window.history.replaceState(
+      {},
+      document.title,
+      appState?.returnTo || window.location.pathname
+    );
+  };
+
 root.render(
-  
   <React.StrictMode>
   <Router>
   <Auth0Provider
@@ -22,6 +30,8 @@ root.render(
         redirect_uri: process.env.REACT_APP_AUTH0_REDIRECT_URI,
         audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       }}
+      onRedirectCallback={onRedirectCallback}
+      cacheLocation="localstorage"
     >
 
     

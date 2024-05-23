@@ -1,20 +1,30 @@
 import React from 'react';
-import '../assets/TodoItem.css'; // Import custom CSS
+import '../assets/TodoItem.css';
 
 const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
-  return (
-    <div className="todo-item">
-      <div className="todo-content">
-        <h3 className="todo-title">{todo.content}</h3>
-        <p className="todo-date">{todo.dueDate}</p>
-      </div>
-      <div className="todo-actions">
-        <button className="todo-button complete" onClick={() => onComplete(todo._id)}>Complete</button>
-        <button className="todo-button edit" onClick={() => onEdit(todo)}>Edit</button>
-        <button className="todo-button delete" onClick={() => onDelete(todo._id)}>Delete</button>
-      </div>
-    </div>
-  );
+    return (
+<li className="todo-item bg-white shadow-lg rounded-lg p-4 flex items-center justify-between mb-4">
+            <div>
+                <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => onComplete(todo._id)}
+                    className="mr-2"
+                />
+                <span className={`todo-content ${todo.completed ? 'line-through' : ''}`}>
+                    {todo.content}
+                </span>
+            </div>
+            <div className="flex space-x-2">
+                <button onClick={() => onEdit(todo)} className="text-blue-500 hover:underline">
+                    Edit
+                </button>
+                <button onClick={() => onDelete(todo._id)} className="text-red-500 hover:underline">
+                    Delete
+                </button>
+            </div>
+        </li>
+    );
 };
 
 export default TodoItem;

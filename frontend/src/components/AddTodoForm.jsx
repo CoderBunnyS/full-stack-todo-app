@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import '../assets/AddTodoForm.css';
 
 const AddTodoForm = ({ onAdd }) => {
     const [content, setContent] = useState('');
@@ -11,15 +11,18 @@ const AddTodoForm = ({ onAdd }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="mb-8">
+        <form onSubmit={handleSubmit} className="add-todo-form mb-8 p-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg shadow-lg">
             <input
                 type="text"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="Add a new todo..."
-                className="w-full p-4 rounded shadow-lg"
+                className="w-full p-4 mb-4 border border-gray-300 rounded-lg"
             />
-            <button type="submit" className="mt-4 w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition duration-150 ease-in-out">
+            <button
+                type="submit"
+                className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-150 ease-in-out"
+            >
                 Add Todo
             </button>
         </form>

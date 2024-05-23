@@ -1,29 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import Home from './components/Home';
+import Hero from './components/Hero';
 import TodoListContainer from './components/TodoListContainer';
-import './assets/index.css';
+import '../src/index.css';
 
 function App() {
-    const { isAuthenticated } = useAuth0();
-    const navigate = useNavigate();
+  const { isAuthenticated } = useAuth0();
 
-    useEffect(() => {
-        if (isAuthenticated) {
-          navigate('/todos');
-        }
-      }, [isAuthenticated, navigate]);
-
-    return (
-        <div className="App">
-            <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/todos" element={<TodoListContainer />} />
-   
+  return (
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Hero />} />
+        {isAuthenticated && <Route path="/todos" element={<TodoListContainer />} />}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-        </div>
-    );
+    </div>
+  );
 }
 
 export default App;

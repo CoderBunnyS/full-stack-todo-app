@@ -1,15 +1,4 @@
-.todo-list-container {
-    padding: 1.5rem;
-    background-color: #f7fafc;
-    min-height: 100vh;
-  }
-  
-  .todo-list {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .todo-item {
+.todo-item {
     background-color: white;
     padding: 1rem;
     border-radius: 0.5rem;

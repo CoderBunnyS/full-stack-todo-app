@@ -1,23 +1,24 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
+import '../assets/Hero.css';
 
 const Hero = () => {
   const { loginWithRedirect } = useAuth0();
 
   return (
-    <div className="hero bg-blue-600 text-white h-screen flex items-center justify-center flex-col p-6">
-      <h1 className="text-6xl font-bold mb-4">Welcome to the Ultimate ToDo App</h1>
-      <p className="text-2xl mb-8">Stay organized, boost your productivity, and manage your tasks effortlessly.</p>
+    <div className="hero-container">
+      <h1 className="hero-title">Task Management & To-Do List</h1>
+      <p className="hero-description">This productive tool is designed to help you better manage your task projects conveniently!</p>
       <button
-        className="bg-white text-blue-600 font-semibold py-2 px-4 rounded hover:bg-blue-500 hover:text-white transition duration-300"
+        className="hero-button"
         onClick={() => loginWithRedirect()}
       >
-        Get Started
+        Let's Start
       </button>
-      <div className="mt-8 flex justify-center space-x-6">
-        <img src="https://source.unsplash.com/random/300x300?task" alt="Task management" className="rounded-lg shadow-lg" />
-        <img src="https://source.unsplash.com/random/300x300?productivity" alt="Productivity" className="rounded-lg shadow-lg" />
-        <img src="https://source.unsplash.com/random/300x300?work" alt="Work organization" className="rounded-lg shadow-lg" />
+      <div className="hero-images">
+        <img src="https://source.unsplash.com/random/300x300?task" alt="Task management" className="hero-image" />
+        <img src="https://source.unsplash.com/random/300x300?productivity" alt="Productivity" className="hero-image" />
+        <img src="https://source.unsplash.com/random/300x300?work" alt="Work organization" className="hero-image" />
       </div>
     </div>
   );

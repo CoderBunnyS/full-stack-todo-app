@@ -1,37 +1,43 @@
 body, html {
     height: 100%;
     margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 .container {
-    display: flex;
     background: linear-gradient(to right, #9b5de5, #f15bb5, #fee440);
     color: white;
-    height: 100vh;
-    width: 100%;
-    
+    min-height: 100vh;
+    width: 100vw; /* Ensures it takes the full width of the viewport */
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
     padding: 2rem;
     text-align: center;
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: none !important; /* Override Tailwind's max-width */
+    box-sizing: border-box;
+    margin: 0; /* Remove any default margins */
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 ul {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.todo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
     justify-items: center;
     width: 100%;
-
+    max-width: 100%; /* Ensure it takes the full width of the container */
 }
 
 .todo-item {
@@ -62,6 +68,7 @@ ul {
 
 .todo-item .todo-content.line-through {
     text-decoration: line-through;
+    color: #bbb;
 }
 
 .todo-item button {
@@ -70,14 +77,17 @@ ul {
     cursor: pointer;
     font-weight: bold;
     margin-top: 1rem;
+    color: #007bff;
+    transition: color 0.2s;
 }
 
 .todo-item button:hover {
     text-decoration: underline;
+    color: #0056b3;
 }
 
 .logout-button {
-    background-color: #007bff;
+    background-color: #ff6b6b;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -87,5 +97,19 @@ ul {
 }
 
 .logout-button:hover {
-    background-color: #0056b3;
+    background-color: #e05656;
+}
+
+@media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+
+    .todo-item {
+      padding: 1rem;
+    }
+
+    .logout-button {
+      padding: 0.4rem 0.8rem;
+    }
 }

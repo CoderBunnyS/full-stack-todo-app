@@ -12,6 +12,8 @@ const TodoListContainer = () => {
   const [todos, setTodos] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
+  const [activeTodo, setActiveTodo] = useState(null);
+  const [activeTodoContent, setActiveTodoContent] = useState("");
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -92,6 +94,26 @@ const TodoListContainer = () => {
     setTodos(reorderedTodos);
   };
 
+  const handleTodoClick = (todo) => {
+    setActiveTodo(todo);
+    setActiveTodoContent(todo.content);
+  };
+
+  const closeTodoModal = () => {
+    setActiveTodo(null);
+  };
+
+  const handleActiveTodoSave = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      const updatedTodo = await updateTodo(activeTodo._id, { content: activeTodoContent }, token);
+      setTodos(todos.map(todo => (todo._id === activeTodo._id ? updatedTodo : todo)));
+      closeTodoModal();
+    } catch (error) {
+      console.error('Error saving todo:', error);
+    }
+  };
+
   return (
     <div className="container max-w-full">
       <div className="header flex justify-between items-center mb-8">
@@ -123,6 +145,8 @@ const TodoListContainer = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
+                      onClick={() => handleTodoClick(todo)}
+                      className="todo-item"
                     >
                       <TodoItem
                         todo={todo}
@@ -146,6 +170,21 @@ const TodoListContainer = () => {
           todo={currentTodo}
           onSave={handleEditSave}
         />
+      )}
+      {activeTodo && (
+        <div className="modal" onClick={closeTodoModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <span className="close" onClick={closeTodoModal}>&times;</span>
+            <textarea
+              value={activeTodoContent}
+              onChange={(e) => setActiveTodoContent(e.target.value)}
+              className="modal-textarea popup"
+            />
+            <button onClick={handleActiveTodoSave} className="modal-save-button">
+              Save
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

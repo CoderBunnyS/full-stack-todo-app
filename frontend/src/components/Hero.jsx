@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../assets/Hero.css';
 
@@ -17,11 +17,26 @@ const Hero = () => {
     document.getElementById(modalId).style.display = 'none';
   };
 
-  window.onclick = (event) => {
+  useEffect(() => {
+    // Ensure all modals are closed on initial load
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+      modal.style.display = 'none';
+    });
+  }, []);
+
+  const handleClickOutside = (event) => {
     if (event.target.className === 'modal') {
       event.target.style.display = 'none';
     }
   };
+
+  useEffect(() => {
+    window.addEventListener('click', handleClickOutside);
+    return () => {
+      window.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -51,11 +66,11 @@ const Hero = () => {
             <h3>Priority and Due Dates</h3>
             <p>Easily prioritize and set deadlines to manage your schedule effectively.</p>
           </div>
-          <div className="feature-item" onClick={() => openModal('modal4')}>
+          {/* <div className="feature-item" onClick={() => openModal('modal4')}>
             <img src="icons/reminders_alerts.png" alt="Reminders and Alerts Icon" />
             <h3>Reminders and Alerts</h3>
             <p>Receive timely notifications to ensure you never miss a task.</p>
-          </div>
+          </div> */}
           <div className="feature-item" onClick={() => openModal('modal5')}>
             <img src="icons/notes_subtasks.png" alt="Notes and Subtasks Icon" />
             <h3>Notes and Subtasks</h3>

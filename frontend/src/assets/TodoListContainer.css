@@ -1,46 +1,43 @@
 body, html {
     height: 100%;
     margin: 0;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
-.container {
+  }
+  
+  .container {
     background: linear-gradient(to right, #9b5de5, #f15bb5, #fee440);
     color: white;
     min-height: 100vh;
-    width: 100vw; /* Ensures it takes the full width of the viewport */
+    width: 100vw; /* Full width */
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2rem;
     text-align: center;
     box-sizing: border-box;
-    margin: 0; /* Remove any default margins */
-}
-
-.header {
+  }
+  
+  .header {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-ul {
+  }
+  
+  ul {
     list-style: none;
     padding: 0;
     margin: 0;
-}
-
-.todo-grid {
+  }
+  
+  .todo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
     justify-items: center;
     width: 100%;
-    max-width: 100%; /* Ensure it takes the full width of the container */
-}
-
-.todo-item {
+  }
+  
+  .todo-item {
     background-color: #fff;
     border-radius: 1rem;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
@@ -52,26 +49,26 @@ ul {
     word-wrap: break-word;
     overflow-wrap: break-word;
     height: 100%;
-}
-
-.todo-item:hover {
+  }
+  
+  .todo-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
-}
-
-.todo-item .todo-content {
+  }
+  
+  .todo-item .todo-content {
     display: inline-block;
     margin-left: 0.5rem;
     word-wrap: break-word;
     overflow-wrap: break-word;
-}
-
-.todo-item .todo-content.line-through {
+  }
+  
+  .todo-item .todo-content.line-through {
     text-decoration: line-through;
     color: #bbb;
-}
-
-.todo-item button {
+  }
+  
+  .todo-item button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -79,14 +76,14 @@ ul {
     margin-top: 1rem;
     color: #007bff;
     transition: color 0.2s;
-}
-
-.todo-item button:hover {
+  }
+  
+  .todo-item button:hover {
     text-decoration: underline;
     color: #0056b3;
-}
-
-.logout-button {
+  }
+  
+  .logout-button {
     background-color: #ff6b6b;
     color: white;
     border: none;
@@ -94,22 +91,23 @@ ul {
     cursor: pointer;
     padding: 0.5rem 1rem;
     transition: background-color 0.2s;
-}
-
-.logout-button:hover {
+  }
+  
+  .logout-button:hover {
     background-color: #e05656;
-}
-
-@media (max-width: 768px) {
+  }
+  
+  @media (max-width: 768px) {
     .container {
       padding: 1rem;
     }
-
+  
     .todo-item {
       padding: 1rem;
     }
-
+  
     .logout-button {
       padding: 0.4rem 0.8rem;
     }
-}
+  }
+  

@@ -33,7 +33,7 @@
 
 .add-todo-form button {
     background-color: #6a0dad;
-    border: none;
+    border: .5px solid #fff;
     border-radius: 0.5rem;
     color: #fff;
     padding: 0.75rem 1.5rem;

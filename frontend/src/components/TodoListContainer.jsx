@@ -4,6 +4,7 @@ import { getTodos, createTodo, updateTodo, deleteTodo } from '../services/api';
 import AddTodoForm from './AddTodoForm';
 import EditModal from './EditModal';
 import TodoItem from './TodoItem';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import '../assets/TodoListContainer.css';
 
 const TodoListContainer = () => {
@@ -79,8 +80,20 @@ const TodoListContainer = () => {
     setIsEditing(false);
   };
 
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+
+    const reorderedTodos = Array.from(todos);
+    const [removed] = reorderedTodos.splice(result.source.index, 1);
+    reorderedTodos.splice(result.destination.index, 0, removed);
+
+    setTodos(reorderedTodos);
+  };
+
   return (
-    <div className="container max-w-full ">
+    <div className="container max-w-full">
       <div className="header flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">My DoListify Tasks</h1>
         <button
@@ -91,17 +104,41 @@ const TodoListContainer = () => {
         </button>
       </div>
       <AddTodoForm onAdd={handleAddTodo} />
-      <div className="todo-grid">
-        {todos.map(todo => (
-          <TodoItem
-            key={todo._id}
-            todo={todo}
-            onComplete={handleCompleteTodo}
-            onEdit={handleEditInit}
-            onDelete={handleDeleteTodo}
-          />
-        ))}
-      </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided) => (
+            <div
+              className="todo-grid"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {todos.map((todo, index) => (
+                <Draggable
+                  key={todo._id}
+                  draggableId={todo._id.toString()}
+                  index={index}
+                >
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <TodoItem
+                        todo={todo}
+                        onComplete={handleCompleteTodo}
+                        onEdit={handleEditInit}
+                        onDelete={handleDeleteTodo}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
       {currentTodo && (
         <EditModal
           isOpen={isEditing}

@@ -6,6 +6,7 @@ import EditModal from './EditModal';
 import TodoItem from './TodoItem';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import '../assets/TodoListContainer.css';
+import '../index.css';
 
 const TodoListContainer = () => {
   const { getAccessTokenSilently, logout } = useAuth0();
@@ -14,6 +15,8 @@ const TodoListContainer = () => {
   const [currentTodo, setCurrentTodo] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null);
   const [activeTodoContent, setActiveTodoContent] = useState("");
+  const [newSubtask, setNewSubtask] = useState("");
+  const [showSubtaskInput, setShowSubtaskInput] = useState(false);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -101,6 +104,8 @@ const TodoListContainer = () => {
 
   const closeTodoModal = () => {
     setActiveTodo(null);
+    setNewSubtask("");
+    setShowSubtaskInput(false);
   };
 
   const handleActiveTodoSave = async () => {
@@ -112,6 +117,23 @@ const TodoListContainer = () => {
     } catch (error) {
       console.error('Error saving todo:', error);
     }
+  };
+
+  const handleSubtaskAdd = (e) => {
+    if (e.key === 'Enter' && newSubtask.trim()) {
+      setActiveTodoContent({
+        ...activeTodo,
+        subtasks: [...(activeTodo.subtasks || []), { content: newSubtask, completed: false }]
+      });
+      setNewSubtask("");
+      setShowSubtaskInput(false);
+    }
+  };
+
+  const handleSubtaskChange = (index, field, value) => {
+    const updatedSubtasks = [...activeTodo.subtasks];
+    updatedSubtasks[index][field] = value;
+    setActiveTodoContent({ ...activeTodo, subtasks: updatedSubtasks });
   };
 
   return (
@@ -146,7 +168,6 @@ const TodoListContainer = () => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       onClick={() => handleTodoClick(todo)}
-                      className="todo-item"
                     >
                       <TodoItem
                         todo={todo}
@@ -175,11 +196,83 @@ const TodoListContainer = () => {
         <div className="modal" onClick={closeTodoModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close" onClick={closeTodoModal}>&times;</span>
-            <textarea
+            <input
+              type="text"
+              placeholder="Task Name"
               value={activeTodoContent}
               onChange={(e) => setActiveTodoContent(e.target.value)}
-              className="modal-textarea popup"
             />
+            <textarea
+              value={activeTodo.details || ""}
+              onChange={(e) => setActiveTodoContent({ ...activeTodo, details: e.target.value })}
+              placeholder="Add details"
+            />
+            <div className="subtasks">
+              <h3>Subtasks</h3>
+              <ul>
+                {activeTodo.subtasks?.map((subtask, index) => (
+                  <li key={index}>
+                    <input
+                      type="checkbox"
+                      checked={subtask.completed}
+                      onChange={(e) => handleSubtaskChange(index, 'completed', e.target.checked)}
+                    />
+                    <input
+                      type="text"
+                      value={subtask.content}
+                      onChange={(e) => handleSubtaskChange(index, 'content', e.target.value)}
+                    />
+                  </li>
+                ))}
+              </ul>
+              <button
+                className="add-subtask-button"
+                onClick={() => setShowSubtaskInput(true)}
+              >
+                Add Subtask
+              </button>
+              {showSubtaskInput && (
+                <input
+                  type="text"
+                  placeholder="Enter subtask"
+                  value={newSubtask}
+                  onChange={(e) => setNewSubtask(e.target.value)}
+                  onKeyDown={handleSubtaskAdd}
+                />
+              )}
+            </div>
+            <div>
+              <label>
+                Category Color:
+                <input
+                  type="color"
+                  value={activeTodo.color || "#000000"}
+                  onChange={(e) => setActiveTodoContent({ ...activeTodo, color: e.target.value })}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Due Date:
+                <input
+                  type="date"
+                  value={activeTodo.dueDate || ""}
+                  onChange={(e) => setActiveTodoContent({ ...activeTodo, dueDate: e.target.value })}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Progress:
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={activeTodo.progress || 0}
+                  onChange={(e) => setActiveTodoContent({ ...activeTodo, progress: e.target.value })}
+                />
+              </label>
+            </div>
             <button onClick={handleActiveTodoSave} className="modal-save-button">
               Save
             </button>

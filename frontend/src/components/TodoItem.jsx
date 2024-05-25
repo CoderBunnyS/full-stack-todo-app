@@ -1,6 +1,7 @@
 import React from 'react';
 import '../assets/TodoItem.css';
 
+
 const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
     return (
 <li className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4">

@@ -100,14 +100,39 @@ const TodoListContainer = () => {
   };
 
   const saveTodoDetails = async (updatedTodo) => {
+    console.log('Saving todo:', updatedTodo); // Log the todo being saved
     try {
       const token = await getAccessTokenSilently();
-      const savedTodo = await updateTodo(updatedTodo._id, updatedTodo, token);
+      const response = await fetch(`http://localhost:8000/api/todos/${updatedTodo._id}`, { // Ensure the URL is correct
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          content: updatedTodo.content,
+          details: updatedTodo.details,
+          subtasks: updatedTodo.subtasks,
+          color: updatedTodo.color,
+          dueDate: updatedTodo.dueDate,
+          progress: updatedTodo.progress,
+          completed: updatedTodo.completed,
+          userId: updatedTodo.userId,
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error saving todo');
+      }
+  
+      const savedTodo = await response.json();
+      console.log('Saved todo:', savedTodo); // Log the saved todo
       setTodos(todos.map(todo => (todo._id === savedTodo._id ? savedTodo : todo)));
     } catch (error) {
       console.error('Error saving todo:', error);
     }
   };
+  
 
   return (
     <div className="container max-w-full">

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../assets/TaskDetails.css';
 
 const TaskDetails = ({ todo, onClose, onSave }) => {
@@ -10,14 +10,6 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
   const [categoryColor, setCategoryColor] = useState(todo.color || "#000000");
   const [dueDate, setDueDate] = useState(todo.dueDate || "");
   const [progress, setProgress] = useState(todo.progress || 0);
-
-  const subtaskInputRef = useRef(null);
-
-  useEffect(() => {
-    if (showSubtaskInput && subtaskInputRef.current) {
-      subtaskInputRef.current.focus();
-    }
-  }, [showSubtaskInput]);
 
   const handleSubtaskAdd = (e) => {
     if (e.key === 'Enter' && newSubtask.trim()) {
@@ -51,8 +43,8 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
   };
 
   return (
-    <div className="modal" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+    <div className="task-details">
+      <div className="task-details-content">
         <span className="close" onClick={onClose}>&times;</span>
         <input
           type="text"
@@ -82,18 +74,6 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
                 />
               </li>
             ))}
-            {showSubtaskInput && (
-              <li>
-                <input
-                  ref={subtaskInputRef}
-                  type="text"
-                  placeholder="Enter subtask"
-                  value={newSubtask}
-                  onChange={(e) => setNewSubtask(e.target.value)}
-                  onKeyDown={handleSubtaskAdd}
-                />
-              </li>
-            )}
           </ul>
           <button
             className="add-subtask-button"
@@ -101,6 +81,15 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
           >
             Add Subtask
           </button>
+          {showSubtaskInput && (
+            <input
+              type="text"
+              placeholder="Enter subtask"
+              value={newSubtask}
+              onChange={(e) => setNewSubtask(e.target.value)}
+              onKeyDown={handleSubtaskAdd}
+            />
+          )}
         </div>
         <div>
           <label>

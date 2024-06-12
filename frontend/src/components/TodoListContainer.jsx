@@ -37,7 +37,7 @@ const TodoListContainer = () => {
     try {
       const token = await getAccessTokenSilently();
       const newTodo = await createTodo(content, token);
-      setTodos([...todos, newTodo]);
+      setTodos([newTodo, ...todos]);
     } catch (error) {
       console.error(error);
     }

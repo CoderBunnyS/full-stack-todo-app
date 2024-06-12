@@ -3,6 +3,10 @@ import '../assets/TodoItem.css';
 
 
 const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
+    const handleDeleteClick = (e) => {
+        e.stopPropagation(); // Prevents the click event from propagating to the parent element
+        onDelete(todo._id);
+      };
     return (
 <li className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4">
             <div>
@@ -20,9 +24,9 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
                 <button onClick={() => onEdit(todo)} className="text-blue-500 hover:underline">
                     Edit
                 </button>
-                <button onClick={() => onDelete(todo._id)} className="text-red-500 hover:underline">
-                    Delete
-                </button>
+                <button onClick={(e) => handleDeleteClick(e)} className="text-red-500 hover:underline">
+          Delete
+        </button>
             </div>
         </li>
     );

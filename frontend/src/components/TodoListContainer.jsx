@@ -4,6 +4,7 @@ import { getTodos, createTodo, updateTodo, deleteTodo } from '../services/api';
 import AddTodoForm from './AddTodoForm';
 import EditModal from './EditModal';
 import TodoItem from './TodoItem';
+import TaskDetails from './TaskDetails';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import '../assets/TodoListContainer.css';
 import '../index.css';
@@ -14,9 +15,6 @@ const TodoListContainer = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentTodo, setCurrentTodo] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null);
-  const [activeTodoContent, setActiveTodoContent] = useState("");
-  const [newSubtask, setNewSubtask] = useState("");
-  const [showSubtaskInput, setShowSubtaskInput] = useState(false);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -99,41 +97,16 @@ const TodoListContainer = () => {
 
   const handleTodoClick = (todo) => {
     setActiveTodo(todo);
-    setActiveTodoContent(todo.content);
   };
 
-  const closeTodoModal = () => {
-    setActiveTodo(null);
-    setNewSubtask("");
-    setShowSubtaskInput(false);
-  };
-
-  const handleActiveTodoSave = async () => {
+  const saveTodoDetails = async (updatedTodo) => {
     try {
       const token = await getAccessTokenSilently();
-      const updatedTodo = await updateTodo(activeTodo._id, { content: activeTodoContent }, token);
-      setTodos(todos.map(todo => (todo._id === activeTodo._id ? updatedTodo : todo)));
-      closeTodoModal();
+      const savedTodo = await updateTodo(updatedTodo._id, updatedTodo, token);
+      setTodos(todos.map(todo => (todo._id === savedTodo._id ? savedTodo : todo)));
     } catch (error) {
       console.error('Error saving todo:', error);
     }
-  };
-
-  const handleSubtaskAdd = (e) => {
-    if (e.key === 'Enter' && newSubtask.trim()) {
-      setActiveTodoContent({
-        ...activeTodo,
-        subtasks: [...(activeTodo.subtasks || []), { content: newSubtask, completed: false }]
-      });
-      setNewSubtask("");
-      setShowSubtaskInput(false);
-    }
-  };
-
-  const handleSubtaskChange = (index, field, value) => {
-    const updatedSubtasks = [...activeTodo.subtasks];
-    updatedSubtasks[index][field] = value;
-    setActiveTodoContent({ ...activeTodo, subtasks: updatedSubtasks });
   };
 
   return (
@@ -148,6 +121,13 @@ const TodoListContainer = () => {
         </button>
       </div>
       <AddTodoForm onAdd={handleAddTodo} />
+      {activeTodo && (
+        <TaskDetails
+          todo={activeTodo}
+          onClose={() => setActiveTodo(null)}
+          onSave={saveTodoDetails}
+        />
+      )}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
@@ -191,93 +171,6 @@ const TodoListContainer = () => {
           todo={currentTodo}
           onSave={handleEditSave}
         />
-      )}
-      {activeTodo && (
-        <div className="modal" onClick={closeTodoModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <span className="close" onClick={closeTodoModal}>&times;</span>
-            <input
-              type="text"
-              placeholder="Task Name"
-              value={activeTodoContent}
-              onChange={(e) => setActiveTodoContent(e.target.value)}
-            />
-            <textarea
-              value={activeTodo.details || ""}
-              onChange={(e) => setActiveTodoContent({ ...activeTodo, details: e.target.value })}
-              placeholder="Add details"
-            />
-            <div className="subtasks">
-              <h3>Subtasks</h3>
-              <ul>
-                {activeTodo.subtasks?.map((subtask, index) => (
-                  <li key={index}>
-                    <input
-                      type="checkbox"
-                      checked={subtask.completed}
-                      onChange={(e) => handleSubtaskChange(index, 'completed', e.target.checked)}
-                    />
-                    <input
-                      type="text"
-                      value={subtask.content}
-                      onChange={(e) => handleSubtaskChange(index, 'content', e.target.value)}
-                    />
-                  </li>
-                ))}
-              </ul>
-              <button
-                className="add-subtask-button"
-                onClick={() => setShowSubtaskInput(true)}
-              >
-                Add Subtask
-              </button>
-              {showSubtaskInput && (
-                <input
-                  type="text"
-                  placeholder="Enter subtask"
-                  value={newSubtask}
-                  onChange={(e) => setNewSubtask(e.target.value)}
-                  onKeyDown={handleSubtaskAdd}
-                />
-              )}
-            </div>
-            <div>
-              <label>
-                Category Color:
-                <input
-                  type="color"
-                  value={activeTodo.color || "#000000"}
-                  onChange={(e) => setActiveTodoContent({ ...activeTodo, color: e.target.value })}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Due Date:
-                <input
-                  type="date"
-                  value={activeTodo.dueDate || ""}
-                  onChange={(e) => setActiveTodoContent({ ...activeTodo, dueDate: e.target.value })}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Progress:
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={activeTodo.progress || 0}
-                  onChange={(e) => setActiveTodoContent({ ...activeTodo, progress: e.target.value })}
-                />
-              </label>
-            </div>
-            <button onClick={handleActiveTodoSave} className="modal-save-button">
-              Save
-            </button>
-          </div>
-        </div>
       )}
     </div>
   );

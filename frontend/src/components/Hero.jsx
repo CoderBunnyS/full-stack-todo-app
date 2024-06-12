@@ -52,17 +52,17 @@ const Hero = () => {
         <h2>Features</h2>
         <div className="feature-list">
           <div className="feature-item" onClick={() => openModal('modal1')}>
-            <img src="icons/task_management.png" alt="Task Management Icon" />
+            <img src="https://i.ibb.co/2KVzczk/tasks-5545400.png" alt="Task Management Icon" />
             <h3>All-in-One Task Management</h3>
             <p>Consolidate all your tasks, goals, and reminders in one convenient place.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal2')}>
-            <img src="icons/customizable_lists.png" alt="Customizable Lists Icon" />
+            <img src="https://i.ibb.co/10SNm89/clipboard-2489661.png" alt="Customizable Lists Icon" />
             <h3>Customizable Lists</h3>
             <p>Create and categorize lists to suit your specific needs, from work projects to personal errands.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal3')}>
-            <img src="icons/priority_due_dates.png" alt="Priority and Due Dates Icon" />
+            <img src="https://i.ibb.co/yqbHNBD/priority.png" alt="Priority and Due Dates Icon" />
             <h3>Priority and Due Dates</h3>
             <p>Easily prioritize and set deadlines to manage your schedule effectively.</p>
           </div>
@@ -72,17 +72,17 @@ const Hero = () => {
             <p>Receive timely notifications to ensure you never miss a task.</p>
           </div> */}
           <div className="feature-item" onClick={() => openModal('modal5')}>
-            <img src="icons/notes_subtasks.png" alt="Notes and Subtasks Icon" />
+            <img src="https://i.ibb.co/G9zvwC5/tasks.png" alt="Notes and Subtasks Icon" />
             <h3>Notes and Subtasks</h3>
             <p>Add details and break down tasks into smaller, actionable steps.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal6')}>
-            <img src="icons/progress_tracking.png" alt="Progress Tracking Icon" />
+            <img src="https://i.ibb.co/92tzzQ7/tracking.png" alt="Progress Tracking Icon" />
             <h3>Progress Tracking</h3>
             <p>Visualize your progress and stay motivated with visual aids.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal7')}>
-            <img src="icons/cross_device_sync.png" alt="Cross-Device Sync Icon" />
+            <img src="https://i.ibb.co/4tHyh83/cross-platform.png" alt="Cross-Device Sync Icon" />
             <h3>Cross-Device Access</h3>
             <p>Access your tasks from any device, anywhere, anytime without downloading an app.</p>
           </div>

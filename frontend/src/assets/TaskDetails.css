@@ -1,34 +1,32 @@
-/* Modal Styles */
 .task-details {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden; /* Prevent background scrolling */
 }
 
 .task-details-content {
   background-color: white;
   padding: 20px;
-  border: 1px solid #888;
   border-radius: 10px;
   max-width: 600px;
   width: 90%;
-  text-align: left;
+  max-height: 90%; /* Allow modal to be scrollable */
+  overflow-y: auto; /* Enable vertical scrolling */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 0.3s;
 }
 
 .task-details-content input[type="text"],
 .task-details-content textarea,
-.task-details-content input[type="date"],
+.task-details-content select,
 .task-details-content input[type="color"],
+.task-details-content input[type="date"],
 .task-details-content input[type="range"] {
   width: 100%;
   margin-top: 10px;
@@ -36,35 +34,51 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1em;
-  color: #333; /* Ensure text color is visible */
-  background-color: white; /* Ensure background color is white */
 }
 
-.task-details-content .subtasks ul {
-  padding: 0;
-  margin: 0;
+.task-details-content textarea {
+  height: 100px;
+}
+
+.subtasks ul {
   list-style: none;
+  padding: 0;
 }
 
-.task-details-content .subtasks li {
+.subtasks li {
   display: flex;
   align-items: center;
   margin-bottom: 0.5rem;
 }
 
-.task-details-content .subtasks input[type="checkbox"] {
+.subtasks input[type="checkbox"] {
   margin-right: 10px;
 }
 
+.completed {
+  text-decoration: line-through;
+  color: #bbb;
+}
+
 .add-subtask-button {
-  background-color: #6a0dad;;
+  background-color: #6a0dad;
   color: white;
   padding: 2% 2%;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+  margin-bottom: 5%; /* Add margin-bottom here */
 }
+
+.add-subtask-button:hover {
+  background-color: #0056b3;
+}
+
+.label {
+  color: #333;
+}
+
 .modal-save-button {
   background-color: #007bff;
   color: white;
@@ -93,7 +107,23 @@
   cursor: pointer;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+.details-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.details-row > div {
+  width: 30%;
+}
+
+.details-row > div > label {
+  display: flex;
+  align-items: center;
+  height: 40px; /* Set consistent height */
+}
+
+.details-row > div > label > input,
+.details-row > div > label > select {
+  height: 100%; /* Match parent height */
 }

@@ -119,11 +119,10 @@
 
 .details-row > div > label {
   display: flex;
-  align-items: center;
-  height: 40px; /* Set consistent height */
+  flex-direction: column;
 }
 
 .details-row > div > label > input,
 .details-row > div > label > select {
-  height: 100%; /* Match parent height */
+  height: 40px; /* Set consistent height */
 }

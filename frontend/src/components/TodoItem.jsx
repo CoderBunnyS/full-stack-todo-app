@@ -16,10 +16,10 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
         </span>
       </div>
       <div className="flex space-x-2 mt-4">
-        <button onClick={() => onEdit(todo)} className="text-blue-500 hover:underline">
+        <button onClick={() => onEdit(todo)} className="modal-edit-button">
           Edit
         </button>
-        <button onClick={() => onDelete(todo._id)} className="text-red-500 hover:underline">
+        <button onClick={() => onDelete(todo._id)} className="modal-delete-button">
           Delete
         </button>
       </div>

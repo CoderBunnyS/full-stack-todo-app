@@ -37,12 +37,19 @@
 }
 
 .todo-item button {
-    background-color: transparent;
+    background-color: #6a0dad;
     border: none;
     cursor: pointer;
     font-weight: bold;
     margin-top: 1rem;
-    color: #007bff; /* Button color */
+    padding: 5px 7px;
+    border-radius: 5px;
+    color: white; 
+}
+
+.flex {
+    justify-content: space-between;
+    align-items: center;
 }
 
 .todo-item button:hover {
@@ -110,8 +117,10 @@
     margin-right: 10px;
 }
 
-.modal-save-button {
-    background-color: #007bff;
+.modal-save-button,
+.modal-edit-button,
+.modal-delete-button {
+    background-color: #6a0dad;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -120,7 +129,9 @@
     margin-top: 10px;
 }
 
-.modal-save-button:hover {
+.modal-save-button:hover,
+.modal-edit-button:hover,
+.modal-delete-button:hover {
     background-color: #0056b3;
 }
 

@@ -1,5 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../assets/TaskDetails.css';
+
+const colorOptions = [
+  { color: '#FF5733', label: 'Red' },
+  { color: '#33FF57', label: 'Green' },
+  { color: '#3357FF', label: 'Blue' },
+  { color: '#FF33A1', label: 'Pink' },
+  { color: '#FFC733', label: 'Yellow' },
+  { color: '#33FFF5', label: 'Cyan' },
+  { color: '#FF5733', label: 'Orange' },
+  { color: '#A833FF', label: 'Purple' }
+];
+
+const progressOptions = [
+  { value: 0, label: '0%' },
+  { value: 10, label: '10%' },
+  { value: 20, label: '20%' },
+  { value: 30, label: '30%' },
+  { value: 40, label: '40%' },
+  { value: 50, label: '50%' },
+  { value: 60, label: '60%' },
+  { value: 70, label: '70%' },
+  { value: 80, label: '80%' },
+  { value: 90, label: '90%' },
+  { value: 100, label: '100%' }
+];
 
 const TaskDetails = ({ todo, onClose, onSave }) => {
   const [activeTodoContent, setActiveTodoContent] = useState(todo.content);
@@ -7,7 +32,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
   const [newSubtask, setNewSubtask] = useState("");
   const [showSubtaskInput, setShowSubtaskInput] = useState(false);
   const [activeTodoSubtasks, setActiveTodoSubtasks] = useState(todo.subtasks || []);
-  const [categoryColor, setCategoryColor] = useState(todo.color || "#000000");
+  const [colorLabels, setColorLabels] = useState(todo.colorLabels?.length > 0 ? todo.colorLabels : [{ color: colorOptions[0].color, label: '' }]);
   const [dueDate, setDueDate] = useState(todo.dueDate ? new Date(todo.dueDate).toISOString().substr(0, 10) : new Date().toISOString().substr(0, 10));
   const [progress, setProgress] = useState(todo.progress || 0);
 
@@ -34,7 +59,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
       content: activeTodoContent,
       details: activeTodoDetails,
       subtasks: activeTodoSubtasks,
-      color: categoryColor,
+      colorLabels,
       dueDate,
       progress
     };
@@ -42,11 +67,25 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
     onClose();
   };
 
+  const handleColorLabelChange = (index, field, value) => {
+    const updatedColorLabels = [...colorLabels];
+    if (!updatedColorLabels[index]) {
+      updatedColorLabels[index] = { color: colorOptions[0].color, label: '' };
+    }
+    updatedColorLabels[index][field] = value;
+    setColorLabels(updatedColorLabels);
+  };
+
+  const addColorLabel = () => {
+    setColorLabels([...colorLabels, { color: colorOptions[0].color, label: '' }]);
+  }
+
   return (
     <div className="task-details">
       <div className="task-details-content">
         <span className="close" onClick={onClose}>&times;</span>
-        <input className='label'
+        <input
+          className="label"
           type="text"
           placeholder="Task Name"
           value={activeTodoContent}
@@ -56,7 +95,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
           value={activeTodoDetails}
           onChange={(e) => setActiveTodoDetails(e.target.value)}
           placeholder="Add details"
-          className='label'
+          className="label"
         />
         <div className="subtasks">
           <h3>Subtasks</h3>
@@ -87,7 +126,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
               onChange={(e) => setNewSubtask(e.target.value)}
               onKeyDown={handleSubtaskAdd}
               autoFocus
-              className='label'
+              className="label"
             />
           )}
           <button
@@ -99,17 +138,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
         </div>
         <div className="details-row">
           <div>
-          <label className='label'>
-              Category Color:
-              <input
-                type="color"
-                value={categoryColor}
-                onChange={(e) => setCategoryColor(e.target.value)}
-              />
-            </label>
-          </div>
-          <div>
-            <label className='label'>
+            <label className="label">
               Due Date:
               <input
                 type="date"
@@ -119,23 +148,39 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
             </label>
           </div>
           <div>
-          <label className='label'>
+            <label className="label">
+              Category Color:
+              <select
+                value={colorLabels[0]?.color || colorOptions[0].color}
+                onChange={(e) => handleColorLabelChange(0, 'color', e.target.value)}
+                style={{ backgroundColor: colorLabels[0]?.color || colorOptions[0].color }}
+              >
+                {colorOptions.map(option => (
+                  <option key={option.color} value={option.color} style={{ backgroundColor: option.color }}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                placeholder="Label"
+                value={colorLabels[0]?.label || ''}
+                onChange={(e) => handleColorLabelChange(0, 'label', e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <label className="label">
               Progress:
               <select
                 value={progress}
                 onChange={(e) => setProgress(e.target.value)}
               >
-                <option value="0">0%</option>
-                <option value="10">10%</option>
-                <option value="20">20%</option>
-                <option value="30">30%</option>
-                <option value="40">40%</option>
-                <option value="50">50%</option>
-                <option value="60">60%</option>
-                <option value="70">70%</option>
-                <option value="80">80%</option>
-                <option value="90">90%</option>
-                <option value="100">100%</option>
+                {progressOptions.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </select>
             </label>
           </div>

@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 
-const ColorLabelSchema = new mongoose.Schema({
-  color: { type: String, required: true },
-  label: { type: String, required: true },
-});
 
 const SubtaskSchema = new mongoose.Schema({
   content: { type: String, required: true },

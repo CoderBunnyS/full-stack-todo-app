@@ -1,29 +1,30 @@
-import React, { useState } from 'react';
-import '../assets/TaskDetails.css';
+import React, { useState, useEffect } from "react";
+import "../assets/TaskDetails.css";
 
 const colorOptions = [
-  { color: '#FF5733', label: 'Red' },
-  { color: '#33FF57', label: 'Green' },
-  { color: '#3357FF', label: 'Blue' },
-  { color: '#FF33A1', label: 'Pink' },
-  { color: '#FFC733', label: 'Yellow' },
-  { color: '#33FFF5', label: 'Cyan' },
-  { color: '#FF5733', label: 'Orange' },
-  { color: '#A833FF', label: 'Purple' }
+  { color: "#000000", label: "Black" },
+  { color: "#FF0000", label: "Red" },
+  { color: "#33FF57", label: "Green" },
+  { color: "#3357FF", label: "Blue" },
+  { color: "#FF33A1", label: "Pink" },
+  { color: "#FFFF00", label: "Yellow" },
+  { color: "#33FFF5", label: "Cyan" },
+  { color: "#FF5733", label: "Orange" },
+  { color: "#A833FF", label: "Purple" },
 ];
 
 const progressOptions = [
-  { value: 0, label: '0%' },
-  { value: 10, label: '10%' },
-  { value: 20, label: '20%' },
-  { value: 30, label: '30%' },
-  { value: 40, label: '40%' },
-  { value: 50, label: '50%' },
-  { value: 60, label: '60%' },
-  { value: 70, label: '70%' },
-  { value: 80, label: '80%' },
-  { value: 90, label: '90%' },
-  { value: 100, label: '100%' }
+  { value: 0, label: "0%" },
+  { value: 10, label: "10%" },
+  { value: 20, label: "20%" },
+  { value: 30, label: "30%" },
+  { value: 40, label: "40%" },
+  { value: 50, label: "50%" },
+  { value: 60, label: "60%" },
+  { value: 70, label: "70%" },
+  { value: 80, label: "80%" },
+  { value: 90, label: "90%" },
+  { value: 100, label: "100%" },
 ];
 
 const TaskDetails = ({ todo, onClose, onSave }) => {
@@ -32,15 +33,27 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
   const [newSubtask, setNewSubtask] = useState("");
   const [showSubtaskInput, setShowSubtaskInput] = useState(false);
   const [activeTodoSubtasks, setActiveTodoSubtasks] = useState(todo.subtasks || []);
-  const [colorLabels, setColorLabels] = useState(todo.colorLabels?.length > 0 ? todo.colorLabels : [{ color: colorOptions[0].color, label: '' }]);
-  const [dueDate, setDueDate] = useState(todo.dueDate ? new Date(todo.dueDate).toISOString().substr(0, 10) : new Date().toISOString().substr(0, 10));
+  const [categoryColor, setCategoryColor] = useState(todo.color || "#000000");
+  const [dueDate, setDueDate] = useState(
+    todo.dueDate
+      ? new Date(todo.dueDate).toISOString().substr(0, 10)
+      : new Date().toISOString().substr(0, 10)
+  );
   const [progress, setProgress] = useState(todo.progress || 0);
 
+  useEffect(() => {
+    console.log("Initial Category Color set to: ", categoryColor);
+  }, []);
+
+  useEffect(() => {
+    console.log("Category Color updated to: ", categoryColor);
+  }, [categoryColor]);
+
   const handleSubtaskAdd = (e) => {
-    if (e.key === 'Enter' && newSubtask.trim()) {
+    if (e.key === "Enter" && newSubtask.trim()) {
       setActiveTodoSubtasks([
         ...activeTodoSubtasks,
-        { content: newSubtask, completed: false }
+        { content: newSubtask, completed: false },
       ]);
       setNewSubtask("");
       setShowSubtaskInput(false);
@@ -59,31 +72,26 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
       content: activeTodoContent,
       details: activeTodoDetails,
       subtasks: activeTodoSubtasks,
-      colorLabels,
+      color: categoryColor,
       dueDate,
-      progress
+      progress,
     };
     onSave(updatedTodo);
     onClose();
   };
 
-  const handleColorLabelChange = (index, field, value) => {
-    const updatedColorLabels = [...colorLabels];
-    if (!updatedColorLabels[index]) {
-      updatedColorLabels[index] = { color: colorOptions[0].color, label: '' };
-    }
-    updatedColorLabels[index][field] = value;
-    setColorLabels(updatedColorLabels);
+  const handleColorChange = (e) => {
+    const selectedColor = e.target.value;
+    console.log("Selected Color: ", selectedColor);
+    setCategoryColor(selectedColor);
   };
-
-  const addColorLabel = () => {
-    setColorLabels([...colorLabels, { color: colorOptions[0].color, label: '' }]);
-  }
 
   return (
     <div className="task-details">
       <div className="task-details-content">
-        <span className="close" onClick={onClose}>&times;</span>
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
         <input
           className="label"
           type="text"
@@ -105,13 +113,17 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
                 <input
                   type="checkbox"
                   checked={subtask.completed}
-                  onChange={(e) => handleSubtaskChange(index, 'completed', e.target.checked)}
+                  onChange={(e) =>
+                    handleSubtaskChange(index, "completed", e.target.checked)
+                  }
                 />
                 <input
                   type="text"
-                  className={`label ${subtask.completed ? 'completed' : ''}`}
+                  className={`label ${subtask.completed ? "completed" : ""}`}
                   value={subtask.content}
-                  onChange={(e) => handleSubtaskChange(index, 'content', e.target.value)}
+                  onChange={(e) =>
+                    handleSubtaskChange(index, "content", e.target.value)
+                  }
                   disabled={subtask.completed}
                 />
               </li>
@@ -151,22 +163,21 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
             <label className="label">
               Category Color:
               <select
-                value={colorLabels[0]?.color || colorOptions[0].color}
-                onChange={(e) => handleColorLabelChange(0, 'color', e.target.value)}
-                style={{ backgroundColor: colorLabels[0]?.color || colorOptions[0].color }}
+                value={categoryColor}
+                onChange={handleColorChange}
+                className="color-select"
+                style={{ backgroundColor: categoryColor }}
               >
-                {colorOptions.map(option => (
-                  <option key={option.color} value={option.color} style={{ backgroundColor: option.color }}>
+                {colorOptions.map((option) => (
+                  <option
+                    key={option.color}
+                    value={option.color}
+                    style={{ backgroundColor: option.color, color: option.color === "#000000" ? "white" : "black" }}
+                  >
                     {option.label}
                   </option>
                 ))}
               </select>
-              <input
-                type="text"
-                placeholder="Label"
-                value={colorLabels[0]?.label || ''}
-                onChange={(e) => handleColorLabelChange(0, 'label', e.target.value)}
-              />
             </label>
           </div>
           <div>
@@ -176,7 +187,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
                 value={progress}
                 onChange={(e) => setProgress(e.target.value)}
               >
-                {progressOptions.map(option => (
+                {progressOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>

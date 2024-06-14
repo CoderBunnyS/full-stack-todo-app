@@ -41,9 +41,9 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
   );
   const [progress, setProgress] = useState(todo.progress || 0);
 
-  useEffect(() => {
-    console.log("Initial Category Color set to: ", categoryColor);
-  }, []);
+  // useEffect(() => {
+  //   console.log("Initial Category Color set to: ", categoryColor);
+  // }, []);
 
   useEffect(() => {
     console.log("Category Color updated to: ", categoryColor);

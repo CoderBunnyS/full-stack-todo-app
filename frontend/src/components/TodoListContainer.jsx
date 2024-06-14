@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { getTodos, createTodo, updateTodo, deleteTodo } from '../services/api';
 import AddTodoForm from './AddTodoForm';
-import EditModal from './EditModal';
 import TodoItem from './TodoItem';
 import TaskDetails from './TaskDetails';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
@@ -12,9 +11,10 @@ import '../index.css';
 const TodoListContainer = () => {
   const { getAccessTokenSilently, logout } = useAuth0();
   const [todos, setTodos] = useState([]);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentTodo, setCurrentTodo] = useState(null);
+  const [ setIsEditing] = useState(false);
+  const [ setCurrentTodo] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -24,7 +24,8 @@ const TodoListContainer = () => {
           scope: 'read:todos write:todos'
         });
         const todos = await getTodos(token);
-        setTodos(todos);
+        const todosWithIndex = todos.map((todo, index) => ({ ...todo, originalIndex: index }));
+        setTodos(todosWithIndex);
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -32,6 +33,19 @@ const TodoListContainer = () => {
 
     fetchTodos();
   }, [getAccessTokenSilently]);
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+      console.log("Modal opened, body overflow set to 'hidden'");
+    } else {
+      document.body.style.overflow = 'auto';
+      console.log("Modal closed, body overflow set to 'auto'");
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isModalOpen]);
 
   const handleAddTodo = async (content) => {
     try {
@@ -43,30 +57,22 @@ const TodoListContainer = () => {
     }
   };
 
-  const handleCompleteTodo = async (id) => {
+  const handleToggleCompleteTodo = async (id, completed) => {
     try {
       const token = await getAccessTokenSilently();
-      const updatedTodo = await updateTodo(id, { completed: true }, token);
-      setTodos(todos.map(todo => (todo._id === id ? updatedTodo : todo)));
+      const updatedTodo = await updateTodo(id, { completed, completedAt: completed ? new Date() : null }, token);
+      const updatedTodos = todos.map(todo => (todo._id === id ? { ...updatedTodo, originalIndex: todo.originalIndex } : todo));
+      const completedTodos = updatedTodos.filter(todo => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
+      const incompleteTodos = updatedTodos.filter(todo => !todo.completed).sort((a, b) => a.originalIndex - b.originalIndex);
+      setTodos([...incompleteTodos, ...completedTodos]);
     } catch (error) {
-      console.error('Error completing todo:', error);
+      console.error('Error toggling complete todo:', error);
     }
   };
 
   const handleEditInit = (todo) => {
     setCurrentTodo(todo);
     setIsEditing(true);
-  };
-
-  const handleEditSave = async (id, newContent) => {
-    try {
-      const token = await getAccessTokenSilently();
-      const updatedTodo = await updateTodo(id, { content: newContent }, token);
-      setTodos(todos.map(todo => (todo._id === id ? updatedTodo : todo)));
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error editing todo:', error);
-    }
   };
 
   const handleDeleteTodo = async (id) => {
@@ -79,10 +85,6 @@ const TodoListContainer = () => {
     }
   };
 
-  const handleEditCancel = () => {
-    setIsEditing(false);
-  };
-
   const onDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -92,50 +94,33 @@ const TodoListContainer = () => {
     const [removed] = reorderedTodos.splice(result.source.index, 1);
     reorderedTodos.splice(result.destination.index, 0, removed);
 
-    setTodos(reorderedTodos);
+    setTodos(reorderedTodos.map((todo, index) => ({ ...todo, originalIndex: index })));
   };
 
   const handleTodoClick = (todo) => {
     setActiveTodo(todo);
+    setIsModalOpen(true);
+    console.log(`Todo clicked: ${todo.content}`);
+  };
+
+  const closeTodoDetails = () => {
+    setActiveTodo(null);
+    setIsModalOpen(false);
+    console.log("Todo details modal closed");
   };
 
   const saveTodoDetails = async (updatedTodo) => {
-    console.log('Saving todo:', updatedTodo); // Log the todo being saved
     try {
       const token = await getAccessTokenSilently();
-      const response = await fetch(`http://localhost:8000/api/todos/${updatedTodo._id}`, { // Ensure the URL is correct
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          content: updatedTodo.content,
-          details: updatedTodo.details,
-          subtasks: updatedTodo.subtasks,
-          color: updatedTodo.color,
-          dueDate: updatedTodo.dueDate,
-          progress: updatedTodo.progress,
-          completed: updatedTodo.completed,
-          userId: updatedTodo.userId,
-        })
-      });
-  
-      if (!response.ok) {
-        throw new Error('Error saving todo');
-      }
-  
-      const savedTodo = await response.json();
-      console.log('Saved todo:', savedTodo); // Log the saved todo
+      const savedTodo = await updateTodo(updatedTodo._id, updatedTodo, token);
       setTodos(todos.map(todo => (todo._id === savedTodo._id ? savedTodo : todo)));
     } catch (error) {
       console.error('Error saving todo:', error);
     }
   };
-  
 
   return (
-    <div className="container max-w-full">
+    <div className={`container max-w-full ${isModalOpen ? 'modal-open' : ''}`}>
       <div className="header flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">My DoListify Tasks</h1>
         <button
@@ -146,13 +131,6 @@ const TodoListContainer = () => {
         </button>
       </div>
       <AddTodoForm onAdd={handleAddTodo} />
-      {activeTodo && (
-        <TaskDetails
-          todo={activeTodo}
-          onClose={() => setActiveTodo(null)}
-          onSave={saveTodoDetails}
-        />
-      )}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
@@ -172,11 +150,12 @@ const TodoListContainer = () => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      onClick={() => handleTodoClick(todo)}
+                      onClick={() => !isModalOpen && handleTodoClick(todo)}
+                      className={isModalOpen ? 'inactive' : ''}
                     >
                       <TodoItem
                         todo={todo}
-                        onComplete={handleCompleteTodo}
+                        onComplete={handleToggleCompleteTodo}
                         onEdit={handleEditInit}
                         onDelete={handleDeleteTodo}
                       />
@@ -189,12 +168,11 @@ const TodoListContainer = () => {
           )}
         </Droppable>
       </DragDropContext>
-      {currentTodo && (
-        <EditModal
-          isOpen={isEditing}
-          onClose={handleEditCancel}
-          todo={currentTodo}
-          onSave={handleEditSave}
+      {activeTodo && (
+        <TaskDetails
+          todo={activeTodo}
+          onClose={closeTodoDetails}
+          onSave={saveTodoDetails}
         />
       )}
     </div>

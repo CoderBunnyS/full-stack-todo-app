@@ -133,11 +133,11 @@ const TodoListContainer = () => {
     } else if (option === 'completed') {
       const completedTodos = sortedTodos.filter(todo => todo.completed);
       const incompleteTodos = sortedTodos.filter(todo => !todo.completed);
-      sortedTodos = [...incompleteTodos, ...completedTodos];
+      sortedTodos = [...completedTodos, ...incompleteTodos]; // Fixed to show completed tasks first
     } else if (option === 'notCompleted') {
       const completedTodos = sortedTodos.filter(todo => todo.completed);
       const incompleteTodos = sortedTodos.filter(todo => !todo.completed);
-      sortedTodos = [...completedTodos, ...incompleteTodos];
+      sortedTodos = [...incompleteTodos, ...completedTodos]; // Fixed to show not completed tasks first
     } else {
       const completedTodos = sortedTodos.filter(todo => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
       const incompleteTodos = sortedTodos.filter(todo => !todo.completed).sort((a, b) => a.originalIndex - b.originalIndex);

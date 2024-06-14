@@ -25,8 +25,9 @@ const TodoListContainer = () => {
           scope: 'read:todos write:todos'
         });
         const todos = await getTodos(token);
-        const todosWithIndex = todos.map((todo, index) => ({ ...todo, originalIndex: index }));
-        setTodos(todosWithIndex);
+        const completedTodos = todos.filter((todo) => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
+        const incompleteTodos = todos.filter((todo) => !todo.completed);
+        setTodos([...incompleteTodos, ...completedTodos]);
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -129,6 +130,14 @@ const TodoListContainer = () => {
       sortedTodos.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
     } else if (option === 'color') {
       sortedTodos.sort((a, b) => a.color.localeCompare(b.color));
+    } else if (option === 'completed') {
+      const completedTodos = sortedTodos.filter(todo => todo.completed);
+      const incompleteTodos = sortedTodos.filter(todo => !todo.completed);
+      sortedTodos = [...incompleteTodos, ...completedTodos];
+    } else if (option === 'notCompleted') {
+      const completedTodos = sortedTodos.filter(todo => todo.completed);
+      const incompleteTodos = sortedTodos.filter(todo => !todo.completed);
+      sortedTodos = [...completedTodos, ...incompleteTodos];
     } else {
       const completedTodos = sortedTodos.filter(todo => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
       const incompleteTodos = sortedTodos.filter(todo => !todo.completed).sort((a, b) => a.originalIndex - b.originalIndex);
@@ -148,10 +157,10 @@ const TodoListContainer = () => {
           Logout
         </button>
       </div>
-      <div className="form-and-sort-container">
+      <div className="form-sort-container">
         <AddTodoForm onAdd={handleAddTodo} />
         <div className="sort-container">
-        <h5 className="sort-label">Sort By:</h5>
+          <h5 className="sort-label">Sort By:</h5>
           <select
             value={sortOption}
             onChange={(e) => handleSortChange(e.target.value)}
@@ -161,6 +170,8 @@ const TodoListContainer = () => {
             <option value="dueDateAsc">Sort by Due Date (Oldest to Newest)</option>
             <option value="dueDateDesc">Sort by Due Date (Newest to Oldest)</option>
             <option value="color">Group by Color</option>
+            <option value="completed">Sort by Completed</option>
+            <option value="notCompleted">Sort by Not Completed</option>
           </select>
         </div>
       </div>

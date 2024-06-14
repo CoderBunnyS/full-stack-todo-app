@@ -127,39 +127,40 @@ ul {
     }
 }
 
-.form-sort-wrapper {
+.form-sort-container {
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* Align items to the right */
-    width: 100%;
-  }
-  
-  .sort-container {
-    margin-top: 1rem; /* Space between the form and the dropdown */
-  }
-  
-  .sort-dropdown {
+    width: 90%;
+}
+
+.sort-container {
+    align-self: flex-end;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column; /* Ensure the label is above the dropdown */
+    align-items: flex-end; /* Align to the right */
+    margin-left: 5%; /* Move the dropdown to the left by 5% */
+}
+
+.sort-dropdown {
     background-color: #6a0dad;
     color: white;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-bottom: 10%;
-    margin-left: 90%; /* Align dropdown to the right */
-  }
-  
-  .sort-dropdown:hover {
+    margin-bottom: 5%;
+}
+
+.sort-dropdown:hover {
     background-color: #0056b3;
-  }
-  
-  .sort-label {
-    margin-left: 90%; /* Align label to the right */
-    margin-bottom: 2%; /* Space between the label and the dropdown */
-    width: 20%;
-  }
-  
+}
+
+.sort-label {
+    margin-bottom: 0.5rem; /* Space between the label and the dropdown */
+    margin-right: 80%;
+}
 
 /* Modal Styles */
 .modal {

@@ -11,10 +11,11 @@ import '../index.css';
 const TodoListContainer = () => {
   const { getAccessTokenSilently, logout } = useAuth0();
   const [todos, setTodos] = useState([]);
-  const [ setIsEditing] = useState(false);
-  const [ setCurrentTodo] = useState(null);
+  const [setIsEditing] = useState(false);
+  const [setCurrentTodo] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [sortOption, setSortOption] = useState('default');
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -119,6 +120,23 @@ const TodoListContainer = () => {
     }
   };
 
+  const handleSortChange = (option) => {
+    setSortOption(option);
+    let sortedTodos = [...todos];
+    if (option === 'dueDateAsc') {
+      sortedTodos.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    } else if (option === 'dueDateDesc') {
+      sortedTodos.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+    } else if (option === 'color') {
+      sortedTodos.sort((a, b) => a.color.localeCompare(b.color));
+    } else {
+      const completedTodos = sortedTodos.filter(todo => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
+      const incompleteTodos = sortedTodos.filter(todo => !todo.completed).sort((a, b) => a.originalIndex - b.originalIndex);
+      sortedTodos = [...incompleteTodos, ...completedTodos];
+    }
+    setTodos(sortedTodos);
+  };
+
   return (
     <div className={`container max-w-full ${isModalOpen ? 'modal-open' : ''}`}>
       <div className="header flex justify-between items-center mb-8">
@@ -130,7 +148,22 @@ const TodoListContainer = () => {
           Logout
         </button>
       </div>
-      <AddTodoForm onAdd={handleAddTodo} />
+      <div className="form-and-sort-container">
+        <AddTodoForm onAdd={handleAddTodo} />
+        <div className="sort-container">
+        <h5 className="sort-label">Sort By:</h5>
+          <select
+            value={sortOption}
+            onChange={(e) => handleSortChange(e.target.value)}
+            className="sort-dropdown"
+          >
+            <option value="default">Default</option>
+            <option value="dueDateAsc">Sort by Due Date (Oldest to Newest)</option>
+            <option value="dueDateDesc">Sort by Due Date (Newest to Oldest)</option>
+            <option value="color">Group by Color</option>
+          </select>
+        </div>
+      </div>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (

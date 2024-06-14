@@ -9,7 +9,11 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
   };
 
   return (
-    <li className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4">
+    <li className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4 relative">
+      <div
+        className="color-indicator"
+        style={{ backgroundColor: todo.color }}
+      ></div>
       <div>
         <input
           type="checkbox"
@@ -23,10 +27,22 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
         </span>
       </div>
       <div className="flex space-x-2 mt-4">
-        <button onClick={(e) => { e.stopPropagation(); onEdit(todo); }} className="modal-edit-button">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onEdit(todo);
+          }}
+          className="modal-edit-button"
+        >
           Edit
         </button>
-        <button onClick={(e) => { onDelete(todo._id); }} className="modal-delete-button">
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(todo._id);
+          }}
+          className="modal-delete-button"
+        >
           Delete
         </button>
       </div>

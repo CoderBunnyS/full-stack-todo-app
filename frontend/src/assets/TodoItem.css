@@ -12,6 +12,7 @@
     height: 100%;
     color: #333; /* Ensure text color is visible */
     cursor: pointer;
+    position: relative; /* Added for positioning the color indicator */
 }
 
 .todo-item:hover {
@@ -54,6 +55,17 @@
 
 .todo-item button:hover {
     text-decoration: underline;
+}
+
+/* Color Indicator */
+.color-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; /* Change to 0 for a square */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 2px solid #fff; /* Optional: adds a border around the indicator */
 }
 
 /* Modal Styles */

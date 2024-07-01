@@ -131,17 +131,25 @@ ul {
     display: flex;
     flex-direction: column;
     width: 90%;
+    align-items: center; /* Center align the form and sort/filter row */
 }
 
-.sort-container {
-    align-self: flex-end;
-    margin-top: 1rem;
+.filter-sort-row {
     display: flex;
-    flex-direction: column; /* Ensure the label is above the dropdown */
-    align-items: flex-end; /* Align to the right */
-    margin-left: 5%; /* Move the dropdown to the left by 5% */
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 1rem; /* Add some space above the row */
 }
 
+.filter-container,
+.sort-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3%;
+}
+
+.filter-dropdown,
 .sort-dropdown {
     background-color: #6a0dad;
     color: white;
@@ -150,16 +158,17 @@ ul {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
-    margin-bottom: 5%;
+    margin-top: 0.5rem; /* Add space between label and dropdown */
 }
 
+.filter-dropdown:hover,
 .sort-dropdown:hover {
     background-color: #0056b3;
 }
 
+.filter-label,
 .sort-label {
     margin-bottom: 0.5rem; /* Space between the label and the dropdown */
-    margin-right: 80%;
 }
 
 /* Modal Styles */

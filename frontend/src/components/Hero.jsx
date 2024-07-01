@@ -41,6 +41,7 @@ const Hero = () => {
   return (
     <>
       <section className="hero">
+        <button onClick={handleLogin} className="login-button">Login</button>
         <div className="hero-content">
           <h1 className="headline">Stay Organized, Stay Productive with DoListify!</h1>
           <p className="subheadline">Your ultimate web tool for listing everything you need to do, ensuring nothing falls through the cracks.</p>
@@ -66,11 +67,6 @@ const Hero = () => {
             <h3>Priority and Due Dates</h3>
             <p>Easily prioritize and set deadlines to manage your schedule effectively.</p>
           </div>
-          {/* <div className="feature-item" onClick={() => openModal('modal4')}>
-            <img src="icons/reminders_alerts.png" alt="Reminders and Alerts Icon" />
-            <h3>Reminders and Alerts</h3>
-            <p>Receive timely notifications to ensure you never miss a task.</p>
-          </div> */}
           <div className="feature-item" onClick={() => openModal('modal5')}>
             <img src="https://i.ibb.co/G9zvwC5/tasks.png" alt="Notes and Subtasks Icon" />
             <h3>Notes and Subtasks</h3>

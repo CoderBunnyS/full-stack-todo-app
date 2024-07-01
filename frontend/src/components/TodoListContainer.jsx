@@ -11,11 +11,13 @@ import '../index.css';
 const TodoListContainer = () => {
   const { getAccessTokenSilently, logout } = useAuth0();
   const [todos, setTodos] = useState([]);
+  const [filteredTodos, setFilteredTodos] = useState([]);
   const [setIsEditing] = useState(false);
   const [setCurrentTodo] = useState(null);
   const [activeTodo, setActiveTodo] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortOption, setSortOption] = useState('default');
+  const [filterOption, setFilterOption] = useState('all');
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -28,6 +30,7 @@ const TodoListContainer = () => {
         const completedTodos = todos.filter((todo) => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
         const incompleteTodos = todos.filter((todo) => !todo.completed);
         setTodos([...incompleteTodos, ...completedTodos]);
+        setFilteredTodos([...incompleteTodos, ...completedTodos]);
       } catch (error) {
         console.error('Error fetching todos:', error);
       }
@@ -54,6 +57,7 @@ const TodoListContainer = () => {
       const token = await getAccessTokenSilently();
       const newTodo = await createTodo(content, token);
       setTodos([newTodo, ...todos]);
+      setFilteredTodos([newTodo, ...todos]);
     } catch (error) {
       console.error(error);
     }
@@ -67,6 +71,7 @@ const TodoListContainer = () => {
       const completedTodos = updatedTodos.filter(todo => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
       const incompleteTodos = updatedTodos.filter(todo => !todo.completed).sort((a, b) => a.originalIndex - b.originalIndex);
       setTodos([...incompleteTodos, ...completedTodos]);
+      setFilteredTodos([...incompleteTodos, ...completedTodos]);
     } catch (error) {
       console.error('Error toggling complete todo:', error);
     }
@@ -81,7 +86,9 @@ const TodoListContainer = () => {
     try {
       const token = await getAccessTokenSilently();
       await deleteTodo(id, token);
-      setTodos(todos.filter(todo => todo._id !== id));
+      const newTodos = todos.filter(todo => todo._id !== id);
+      setTodos(newTodos);
+      setFilteredTodos(newTodos);
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
@@ -97,6 +104,7 @@ const TodoListContainer = () => {
     reorderedTodos.splice(result.destination.index, 0, removed);
 
     setTodos(reorderedTodos.map((todo, index) => ({ ...todo, originalIndex: index })));
+    setFilteredTodos(reorderedTodos.map((todo, index) => ({ ...todo, originalIndex: index }))); 
   };
 
   const handleTodoClick = (todo) => {
@@ -116,34 +124,47 @@ const TodoListContainer = () => {
       const token = await getAccessTokenSilently();
       const savedTodo = await updateTodo(updatedTodo._id, updatedTodo, token);
       setTodos(todos.map(todo => (todo._id === savedTodo._id ? savedTodo : todo)));
+      setFilteredTodos(todos.map(todo => (todo._id === savedTodo._id ? savedTodo : todo)));
     } catch (error) {
       console.error('Error saving todo:', error);
     }
   };
 
+  const applyFilterAndSort = (todos, filterOption, sortOption) => {
+    let filtered = todos;
+    if (filterOption === 'completed') {
+      filtered = todos.filter(todo => todo.completed);
+    } else if (filterOption === 'notCompleted') {
+      filtered = todos.filter(todo => !todo.completed);
+    }
+    if (sortOption === 'dueDateAsc') {
+      filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+    } else if (sortOption === 'dueDateDesc') {
+      filtered.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+    } else if (sortOption === 'color') {
+      filtered.sort((a, b) => a.color.localeCompare(b.color));
+    } else if (sortOption === 'completed') {
+      const completedTodos = filtered.filter(todo => todo.completed);
+      const incompleteTodos = filtered.filter(todo => !todo.completed);
+      filtered = [...completedTodos, ...incompleteTodos];
+    } else if (sortOption === 'notCompleted') {
+      const completedTodos = filtered.filter(todo => todo.completed);
+      const incompleteTodos = filtered.filter(todo => !todo.completed);
+      filtered = [...incompleteTodos, ...completedTodos];
+    }
+    return filtered;
+  };
+
   const handleSortChange = (option) => {
     setSortOption(option);
-    let sortedTodos = [...todos];
-    if (option === 'dueDateAsc') {
-      sortedTodos.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
-    } else if (option === 'dueDateDesc') {
-      sortedTodos.sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
-    } else if (option === 'color') {
-      sortedTodos.sort((a, b) => a.color.localeCompare(b.color));
-    } else if (option === 'completed') {
-      const completedTodos = sortedTodos.filter(todo => todo.completed);
-      const incompleteTodos = sortedTodos.filter(todo => !todo.completed);
-      sortedTodos = [...completedTodos, ...incompleteTodos]; // Fixed to show completed tasks first
-    } else if (option === 'notCompleted') {
-      const completedTodos = sortedTodos.filter(todo => todo.completed);
-      const incompleteTodos = sortedTodos.filter(todo => !todo.completed);
-      sortedTodos = [...incompleteTodos, ...completedTodos]; // Fixed to show not completed tasks first
-    } else {
-      const completedTodos = sortedTodos.filter(todo => todo.completed).sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
-      const incompleteTodos = sortedTodos.filter(todo => !todo.completed).sort((a, b) => a.originalIndex - b.originalIndex);
-      sortedTodos = [...incompleteTodos, ...completedTodos];
-    }
-    setTodos(sortedTodos);
+    const sortedFilteredTodos = applyFilterAndSort(todos, filterOption, option);
+    setFilteredTodos(sortedFilteredTodos);
+  };
+
+  const handleFilterChange = (option) => {
+    setFilterOption(option);
+    const sortedFilteredTodos = applyFilterAndSort(todos, option, sortOption);
+    setFilteredTodos(sortedFilteredTodos);
   };
 
   return (
@@ -159,20 +180,34 @@ const TodoListContainer = () => {
       </div>
       <div className="form-sort-container">
         <AddTodoForm onAdd={handleAddTodo} />
-        <div className="sort-container">
-          <h5 className="sort-label">Sort By:</h5>
-          <select
-            value={sortOption}
-            onChange={(e) => handleSortChange(e.target.value)}
-            className="sort-dropdown"
-          >
-            <option value="default">Default</option>
-            <option value="dueDateAsc">Sort by Due Date (Oldest to Newest)</option>
-            <option value="dueDateDesc">Sort by Due Date (Newest to Oldest)</option>
-            <option value="color">Group by Color</option>
-            <option value="completed">Sort by Completed</option>
-            <option value="notCompleted">Sort by Not Completed</option>
-          </select>
+        <div className="filter-sort-row">
+          <div className="filter-container">
+            <h5 className="filter-label">Filter By:</h5>
+            <select
+              value={filterOption}
+              onChange={(e) => handleFilterChange(e.target.value)}
+              className="filter-dropdown"
+            >
+              <option value="all">All</option>
+              <option value="completed">Completed</option>
+              <option value="notCompleted">Not Completed</option>
+            </select>
+          </div>
+          <div className="sort-container">
+            <h5 className="sort-label">Sort By:</h5>
+            <select
+              value={sortOption}
+              onChange={(e) => handleSortChange(e.target.value)}
+              className="sort-dropdown"
+            >
+              <option value="default">Default</option>
+              <option value="dueDateAsc">Sort by Due Date (Oldest to Newest)</option>
+              <option value="dueDateDesc">Sort by Due Date (Newest to Oldest)</option>
+              <option value="color">Group by Color</option>
+              <option value="completed">Sort by Completed</option>
+              <option value="notCompleted">Sort by Not Completed</option>
+            </select>
+          </div>
         </div>
       </div>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -183,7 +218,7 @@ const TodoListContainer = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {todos.map((todo, index) => (
+              {filteredTodos.map((todo, index) => (
                 <Draggable
                   key={todo._id}
                   draggableId={todo._id.toString()}

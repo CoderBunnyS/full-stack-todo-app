@@ -2,7 +2,9 @@
     background: linear-gradient(to right, #007bff, #6a0dad);
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
+    padding: 4rem;
+    width: 50%;
+
 }
 
 .add-todo-form input {
@@ -12,23 +14,6 @@
     width: 100%;
     margin-bottom: 1rem;
     color: #333;
-}
-
-
-.add-todo-form {
-    background: linear-gradient(to right, #007bff, #6a0dad);
-    border-radius: 1rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.add-todo-form input {
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    width: 100%;
-    margin-bottom: 1rem;
 }
 
 .add-todo-form button {

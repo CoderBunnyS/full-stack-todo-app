@@ -37,16 +37,16 @@ p {
 
 .login-button {
   position: absolute;
-  top: 20px;
-  right: 20px;
   background-color: #ff6b6b;
   color: white;
-  border: none;
-  border-radius: 0.5rem;
+  border-radius: 3rem;
   cursor: pointer;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.2s;
+  transition: background-color 0.3s ease;
   z-index: 10; /* Ensure the button is above the hero pseudo-element */
+  padding: 15px 30px;
+  margin-top: -2%;
+  margin-left: 40%;
+  border: .5px solid white;
 }
 
 .login-button:hover {
@@ -61,6 +61,7 @@ p {
   text-align: center;
   position: relative;
   overflow: hidden; /* Ensure content stays within bounds */
+  height: 25%;
 }
 
 .hero:after {
@@ -280,29 +281,50 @@ p {
   text-align: center;
 }
 
+.benefit-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
 .benefit-item {
-  margin-bottom: 20px;
-  padding: 20px;
+  flex: 1 1 calc(33.333% - 40px);
   background: white;
+  padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 300px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .benefit-item:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 .benefit-item h3 {
-  font-size: 1.8em;
+  font-size: 1.5em;
   margin-bottom: 10px;
-  color: #333;
 }
 
 .benefit-item p {
-  font-size: 1.1em;
+  font-size: 1em;
   color: #555;
-  line-height: 1.5;
+}
+
+.benefit-item img {
+  max-width: 100px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.benefit-item:hover img {
+  transform: scale(1.1);
 }

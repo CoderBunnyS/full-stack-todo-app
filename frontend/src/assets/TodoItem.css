@@ -13,6 +13,8 @@
     color: #333; /* Ensure text color is visible */
     cursor: pointer;
     position: relative; /* Added for positioning the color indicator */
+    width: 150%;
+    margin-left: -20%;
 }
 
 .todo-item:hover {

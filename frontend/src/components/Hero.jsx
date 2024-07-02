@@ -58,26 +58,21 @@ const Hero = () => {
             <p>Consolidate all your tasks, goals, and reminders in one convenient place.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal2')}>
-            <img src="https://i.ibb.co/10SNm89/clipboard-2489661.png" alt="Customizable Lists Icon" />
-            <h3>Customizable Lists</h3>
-            <p>Create and categorize lists to suit your specific needs, from work projects to personal errands.</p>
+            <img src="https://i.ibb.co/10SNm89/clipboard-2489661.png" alt="Color-Coded Tasks Icon" />
+            <h3>Color-Coded Tasks</h3>
+            <p>Easily categorize and prioritize tasks with customizable color-coding.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal3')}>
             <img src="https://i.ibb.co/yqbHNBD/priority.png" alt="Priority and Due Dates Icon" />
             <h3>Priority and Due Dates</h3>
             <p>Easily prioritize and set deadlines to manage your schedule effectively.</p>
           </div>
-          <div className="feature-item" onClick={() => openModal('modal5')}>
-            <img src="https://i.ibb.co/G9zvwC5/tasks.png" alt="Notes and Subtasks Icon" />
-            <h3>Notes and Subtasks</h3>
-            <p>Add details and break down tasks into smaller, actionable steps.</p>
-          </div>
-          <div className="feature-item" onClick={() => openModal('modal6')}>
+          <div className="feature-item" onClick={() => openModal('modal4')}>
             <img src="https://i.ibb.co/92tzzQ7/tracking.png" alt="Progress Tracking Icon" />
             <h3>Progress Tracking</h3>
             <p>Visualize your progress and stay motivated with visual aids.</p>
           </div>
-          <div className="feature-item" onClick={() => openModal('modal7')}>
+          <div className="feature-item" onClick={() => openModal('modal5')}>
             <img src="https://i.ibb.co/4tHyh83/cross-platform.png" alt="Cross-Device Sync Icon" />
             <h3>Cross-Device Access</h3>
             <p>Access your tasks from any device, anywhere, anytime without downloading an app.</p>
@@ -89,15 +84,15 @@ const Hero = () => {
         <div className="modal-content">
           <span className="close" onClick={() => closeModal('modal1')}>&times;</span>
           <h2>All-in-One Task Management</h2>
-          <p>With DoListify, you can consolidate all your tasks, goals, and reminders in one convenient place. Our comprehensive task management system allows you to keep everything organized and easily accessible. Whether you're managing work projects, personal errands, or long-term goals, DoListify makes it simple to stay on top of your to-do list.</p>
+          <p>With DoListify, you can consolidate all your tasks, goals, and reminders in one convenient place. Our comprehensive task management system allows you to keep everything organized and easily accessible. Manage work projects, personal errands, and long-term goals efficiently.</p>
         </div>
       </div>
 
       <div id="modal2" className="modal">
         <div className="modal-content">
           <span className="close" onClick={() => closeModal('modal2')}>&times;</span>
-          <h2>Customizable Lists</h2>
-          <p>DoListify offers highly customizable lists that allow you to organize your tasks exactly how you need. Create and categorize lists for different aspects of your life, from work and study to personal and family tasks. Tailor your lists to fit your unique workflow and preferences.</p>
+          <h2>Color-Coded Tasks</h2>
+          <p>DoListify allows you to easily categorize and prioritize tasks with customizable color-coding. This feature helps you visually organize your tasks and quickly identify their importance at a glance, making task management more intuitive and efficient.</p>
         </div>
       </div>
 
@@ -112,30 +107,14 @@ const Hero = () => {
       <div id="modal4" className="modal">
         <div className="modal-content">
           <span className="close" onClick={() => closeModal('modal4')}>&times;</span>
-          <h2>Reminders and Alerts</h2>
-          <p>Never miss an important task with DoListify's reminders and alerts. Set up notifications for your tasks and get timely reminders to stay on top of your to-do list. Whether it's a meeting, deadline, or personal errand, DoListify ensures you stay informed and prepared.</p>
+          <h2>Progress Tracking</h2>
+          <p>Visualize your progress and stay motivated with DoListify's progress tracking tools. Track your accomplishments, see how much you've done, and stay focused on your goals. Celebrate your achievements and keep moving forward with confidence.</p>
         </div>
       </div>
 
       <div id="modal5" className="modal">
         <div className="modal-content">
           <span className="close" onClick={() => closeModal('modal5')}>&times;</span>
-          <h2>Notes and Subtasks</h2>
-          <p>Add detailed notes and break down your tasks into smaller, actionable steps with DoListify. This feature allows you to add context and clarity to your tasks, making it easier to tackle complex projects. Stay organized and ensure every detail is captured.</p>
-        </div>
-      </div>
-
-      <div id="modal6" className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={() => closeModal('modal6')}>&times;</span>
-          <h2>Progress Tracking</h2>
-          <p>Visualize your progress and stay motivated with DoListify's progress tracking tools. Track your accomplishments, see how much you've done, and stay focused on your goals. Celebrate your achievements and keep moving forward with confidence.</p>
-        </div>
-      </div>
-
-      <div id="modal7" className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={() => closeModal('modal7')}>&times;</span>
           <h2>Cross-Device Access</h2>
           <p>Access your tasks from any device, anywhere, anytime without downloading an app. DoListify works seamlessly on your computer, laptop, phone, or any other internet-enabled device. Stay connected and manage your to-do list wherever you are.</p>
         </div>
@@ -158,22 +137,27 @@ const Hero = () => {
         <h2>Who Can Benefit from DoListify?</h2>
         <div className="benefit-list">
           <div className="benefit-item" onClick={() => openModal('modal8')}>
+            <img src="https://i.ibb.co/CM1VbBZ/diversity.png" alt="Professionals Icon" />
             <h3>For Professionals</h3>
             <p>Boost your productivity by keeping all your work tasks organized and prioritized.</p>
           </div>
           <div className="benefit-item" onClick={() => openModal('modal9')}>
+            <img src="https://i.ibb.co/tBbNbdt/remote-job.png" alt="Students Icon" />
             <h3>For Students</h3>
             <p>Never miss an assignment deadline with customizable lists and reminders.</p>
           </div>
           <div className="benefit-item" onClick={() => openModal('modal10')}>
+            <img src="https://i.ibb.co/5jJF69X/family.png" alt="Parents Icon" />
             <h3>For Parents</h3>
             <p>Manage family schedules, chores, and personal tasks with ease.</p>
           </div>
           <div className="benefit-item" onClick={() => openModal('modal11')}>
+            <img src="https://i.ibb.co/ZTwvzt3/audience.png" alt="Freelancers Icon" />
             <h3>For Freelancers</h3>
             <p>Keep track of multiple clients and projects with our intuitive interface.</p>
           </div>
           <div className="benefit-item" onClick={() => openModal('modal12')}>
+            <img src="https://i.ibb.co/3vMs5tN/professional-development.png" alt="Everyone Icon" />
             <h3>For Everyone</h3>
             <p>Enjoy peace of mind knowing that all your tasks are in one place and easily accessible.</p>
           </div>
@@ -197,8 +181,8 @@ const Hero = () => {
       </div>
 
       <div id="modal10" className="modal">
-        <div className="modal-content">
-          <span className="close" onClick={() => closeModal('modal10')}>&times;</span>
+        <div class="modal-content">
+          <span class="close" onClick={() => closeModal('modal10')}>&times;</span>
           <h2>For Parents</h2>
           <p>Manage family schedules, chores, and personal tasks with ease. DoListify helps parents keep track of their busy lives, ensuring that nothing gets overlooked. Organize family activities, plan meals, and manage household tasks efficiently.</p>
         </div>

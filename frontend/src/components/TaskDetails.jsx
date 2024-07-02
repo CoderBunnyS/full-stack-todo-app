@@ -27,7 +27,7 @@ const progressOptions = [
   { value: 100, label: "100%" },
 ];
 
-const TaskDetails = ({ todo, onClose, onSave }) => {
+const TaskDetails = ({ todo, onClose, onSave, nonce }) => {
   const [activeTodoContent, setActiveTodoContent] = useState(todo.content);
   const [activeTodoDetails, setActiveTodoDetails] = useState(todo.details || "");
   const [newSubtask, setNewSubtask] = useState("");
@@ -40,10 +40,6 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
       : new Date().toISOString().substr(0, 10)
   );
   const [progress, setProgress] = useState(todo.progress || 0);
-
-  // useEffect(() => {
-  //   console.log("Initial Category Color set to: ", categoryColor);
-  // }, []);
 
   useEffect(() => {
     console.log("Category Color updated to: ", categoryColor);
@@ -89,7 +85,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
   return (
     <div className="task-details">
       <div className="task-details-content">
-        <span className="close" onClick={onClose}>
+        <span className="close" onClick={onClose} nonce={nonce}>
           &times;
         </span>
         <input
@@ -98,24 +94,27 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
           placeholder="Task Name"
           value={activeTodoContent}
           onChange={(e) => setActiveTodoContent(e.target.value)}
+          nonce={nonce}
         />
         <textarea
           value={activeTodoDetails}
           onChange={(e) => setActiveTodoDetails(e.target.value)}
           placeholder="Add details"
           className="label"
+          nonce={nonce}
         />
         <div className="subtasks">
           <h3>Subtasks</h3>
-          <ul>
+          <ul nonce={nonce}>
             {activeTodoSubtasks.map((subtask, index) => (
-              <li key={index}>
+              <li key={index} nonce={nonce}>
                 <input
                   type="checkbox"
                   checked={subtask.completed}
                   onChange={(e) =>
                     handleSubtaskChange(index, "completed", e.target.checked)
                   }
+                  nonce={nonce}
                 />
                 <input
                   type="text"
@@ -125,6 +124,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
                     handleSubtaskChange(index, "content", e.target.value)
                   }
                   disabled={subtask.completed}
+                  nonce={nonce}
                 />
               </li>
             ))}
@@ -139,11 +139,13 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
               onKeyDown={handleSubtaskAdd}
               autoFocus
               className="label"
+              nonce={nonce}
             />
           )}
           <button
             className="add-subtask-button"
             onClick={() => setShowSubtaskInput(true)}
+            nonce={nonce}
           >
             Add Subtask
           </button>
@@ -156,6 +158,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
+                nonce={nonce}
               />
             </label>
           </div>
@@ -167,12 +170,14 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
                 onChange={handleColorChange}
                 className="color-select"
                 style={{ backgroundColor: categoryColor }}
+                nonce={nonce}
               >
                 {colorOptions.map((option) => (
                   <option
                     key={option.color}
                     value={option.color}
                     style={{ backgroundColor: option.color, color: option.color === "#000000" ? "white" : "black" }}
+                    nonce={nonce}
                   >
                     {option.label}
                   </option>
@@ -186,9 +191,10 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
               <select
                 value={progress}
                 onChange={(e) => setProgress(e.target.value)}
+                nonce={nonce}
               >
                 {progressOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} value={option.value} nonce={nonce}>
                     {option.label}
                   </option>
                 ))}
@@ -196,7 +202,7 @@ const TaskDetails = ({ todo, onClose, onSave }) => {
             </label>
           </div>
         </div>
-        <button onClick={handleSave} className="modal-save-button">
+        <button onClick={handleSave} className="modal-save-button" nonce={nonce}>
           Save
         </button>
       </div>

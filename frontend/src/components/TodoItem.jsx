@@ -1,7 +1,7 @@
 import React from 'react';
 import '../assets/TodoItem.css';
 
-const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
+const TodoItem = ({ todo, onComplete, onEdit, onDelete, nonce }) => {
   const handleCheckboxClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -13,6 +13,7 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
       <div
         className="color-indicator"
         style={{ backgroundColor: todo.color }}
+        nonce={nonce}
       ></div>
       <div>
         <input
@@ -21,8 +22,9 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
           onChange={handleCheckboxClick}
           className="mr-2"
           onClick={(e) => e.stopPropagation()}
+          nonce={nonce}
         />
-        <span className={`todo-content ${todo.completed ? 'line-through' : ''}`}>
+        <span className={`todo-content ${todo.completed ? 'line-through' : ''}`} nonce={nonce}>
           {todo.content}
         </span>
       </div>
@@ -33,6 +35,7 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
             onEdit(todo);
           }}
           className="modal-edit-button"
+          nonce={nonce}
         >
           Edit
         </button>
@@ -42,6 +45,7 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete }) => {
             onDelete(todo._id);
           }}
           className="modal-delete-button"
+          nonce={nonce}
         >
           Delete
         </button>

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import Hero from './components/Hero';
 import TodoListContainer from './components/TodoListContainer';
+import SecureApp from './SecureApp';
 import './index.css';
 
 function ProtectedRoute({ children }) {
@@ -16,16 +17,18 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
-   return (
+  return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Hero />} />
+      <SecureApp>
+        <Routes>
+          <Route path="/" element={<Hero />} />
           <Route path="/todos" element={
             <ProtectedRoute>
               <TodoListContainer />
             </ProtectedRoute>
           } />
-      </Routes>
+        </Routes>
+      </SecureApp>
     </div>
   );
 }

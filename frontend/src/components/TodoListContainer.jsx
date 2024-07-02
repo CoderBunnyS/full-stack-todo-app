@@ -8,7 +8,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import '../assets/TodoListContainer.css';
 import '../index.css';
 
-const TodoListContainer = () => {
+const TodoListContainer = ({ nonce }) => {
   const { getAccessTokenSilently, logout } = useAuth0();
   const [todos, setTodos] = useState([]);
   const [filteredTodos, setFilteredTodos] = useState([]);
@@ -174,12 +174,13 @@ const TodoListContainer = () => {
         <button
           onClick={() => logout({ returnTo: window.location.origin })}
           className="logout-button py-2 px-4 rounded"
+          nonce={nonce}
         >
           Logout
         </button>
       </div>
       <div className="form-sort-container">
-        <AddTodoForm onAdd={handleAddTodo} />
+        <AddTodoForm onAdd={handleAddTodo} inputPlaceholder="Add a new Do Task..." buttonText="Add a DoListify Task" nonce={nonce} />
         <div className="filter-sort-row">
           <div className="filter-container">
             <h5 className="filter-label">Filter By:</h5>
@@ -187,6 +188,7 @@ const TodoListContainer = () => {
               value={filterOption}
               onChange={(e) => handleFilterChange(e.target.value)}
               className="filter-dropdown"
+              nonce={nonce}
             >
               <option value="all">All</option>
               <option value="completed">Completed</option>
@@ -199,6 +201,7 @@ const TodoListContainer = () => {
               value={sortOption}
               onChange={(e) => handleSortChange(e.target.value)}
               className="sort-dropdown"
+              nonce={nonce}
             >
               <option value="default">Default</option>
               <option value="dueDateAsc">Sort by Due Date (Oldest to Newest)</option>
@@ -217,6 +220,7 @@ const TodoListContainer = () => {
               className="todo-grid"
               {...provided.droppableProps}
               ref={provided.innerRef}
+              nonce={nonce}
             >
               {filteredTodos.map((todo, index) => (
                 <Draggable
@@ -231,12 +235,14 @@ const TodoListContainer = () => {
                       {...provided.dragHandleProps}
                       onClick={() => !isModalOpen && handleTodoClick(todo)}
                       className={isModalOpen ? 'inactive' : ''}
+                      nonce={nonce}
                     >
                       <TodoItem
                         todo={todo}
                         onComplete={handleToggleCompleteTodo}
                         onEdit={handleEditInit}
                         onDelete={handleDeleteTodo}
+                        nonce={nonce}
                       />
                     </div>
                   )}
@@ -252,6 +258,7 @@ const TodoListContainer = () => {
           todo={activeTodo}
           onClose={closeTodoDetails}
           onSave={saveTodoDetails}
+          nonce={nonce}
         />
       )}
     </div>

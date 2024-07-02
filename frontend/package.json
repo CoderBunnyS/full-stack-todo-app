@@ -6,10 +6,13 @@
     "@auth0/auth0-react": "^2.2.4",
     "@hello-pangea/dnd": "^16.6.0",
     "axios": "^1.7.2",
+    "helmet": "^7.1.0",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
     "react-datepicker": "^6.9.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
     "styled-components": "^6.1.11"

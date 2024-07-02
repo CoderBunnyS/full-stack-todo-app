@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../assets/EditModal.css';
 
-const EditModal = ({ isOpen, onClose, todo, onSave }) => {
+const EditModal = ({ isOpen, onClose, todo, onSave, nonce }) => {
   const [newContent, setNewContent] = useState(todo.content);
 
   const handleSave = () => {
@@ -17,9 +17,10 @@ const EditModal = ({ isOpen, onClose, todo, onSave }) => {
         <textarea
           value={newContent}
           onChange={(e) => setNewContent(e.target.value)}
+          nonce={nonce}
         />
-        <button onClick={handleSave}>Save</button>
-        <button onClick={onClose}>Cancel</button>
+        <button onClick={handleSave} nonce={nonce}>Save</button>
+        <button onClick={onClose} nonce={nonce}>Cancel</button>
       </div>
     </div>
   );

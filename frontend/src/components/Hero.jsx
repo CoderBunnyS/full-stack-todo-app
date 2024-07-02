@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../assets/Hero.css';
 
-const Hero = () => {
+const Hero = ({ nonce }) => {
   const { loginWithRedirect } = useAuth0();
 
   const handleLogin = () => {
@@ -41,11 +41,11 @@ const Hero = () => {
   return (
     <>
       <section className="hero">
-        <button onClick={handleLogin} className="login-button">Login</button>
+        <button onClick={handleLogin} className="login-button" nonce={nonce}>Login</button>
         <div className="hero-content">
           <h1 className="headline">Stay Organized, Stay Productive with DoListify!</h1>
           <p className="subheadline">Your ultimate web tool for listing everything you need to do, ensuring nothing falls through the cracks.</p>
-          <button onClick={handleLogin} className="cta-button">Sign Up Now</button>
+          <button onClick={handleLogin} className="cta-button" nonce={nonce}>Sign Up Now</button>
         </div>
       </section>
 
@@ -130,7 +130,7 @@ const Hero = () => {
       <section className="cta">
         <h2>Stay organized and productive!</h2>
         <p>Sign up for DoListify and start managing your tasks today!</p>
-        <button className="cta-button" onClick={handleLogin}>Sign Up Now</button>
+        <button className="cta-button" onClick={handleLogin} nonce={nonce}>Sign Up Now</button>
       </section>
 
       <section className="benefits">
@@ -181,8 +181,8 @@ const Hero = () => {
       </div>
 
       <div id="modal10" className="modal">
-        <div class="modal-content">
-          <span class="close" onClick={() => closeModal('modal10')}>&times;</span>
+        <div className="modal-content">
+          <span className="close" onClick={() => closeModal('modal10')}>&times;</span>
           <h2>For Parents</h2>
           <p>Manage family schedules, chores, and personal tasks with ease. DoListify helps parents keep track of their busy lives, ensuring that nothing gets overlooked. Organize family activities, plan meals, and manage household tasks efficiently.</p>
         </div>

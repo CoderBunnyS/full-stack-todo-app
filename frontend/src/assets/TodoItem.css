@@ -3,23 +3,20 @@
     border-radius: 1rem;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: transform 0.2s, box-shadow 0.2s;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    height: 100%;
+    transition: transform 0.3s, ease;
     color: #333; /* Ensure text color is visible */
     cursor: pointer;
     position: relative; /* Added for positioning the color indicator */
-    width: 150%;
-    margin-left: -20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
 }
 
 .todo-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
+    background-color: #f1f1f1;
 }
 
 .todo-item .todo-title {
@@ -30,9 +27,10 @@
 .todo-item .todo-content {
     display: inline-block;
     margin-left: 0.5rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
     color: #333; /* Ensure text color is visible */
+    white-space: pre; /* Ensures text does not wrap */
+    overflow: hidden; /* Hides overflow text */
+    text-overflow: clip;
 }
 
 .todo-item .todo-content.line-through {
@@ -48,11 +46,6 @@
     padding: 5px 7px;
     border-radius: 5px;
     color: white; 
-}
-
-.flex {
-    justify-content: space-between;
-    align-items: center;
 }
 
 .todo-item button:hover {
@@ -132,7 +125,6 @@
 }
 
 .modal-save-button,
-.modal-edit-button,
 .modal-delete-button {
     background-color: #6a0dad;
     color: white;
@@ -166,4 +158,23 @@
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}
+}
+
+/* Grid Container for Todos */
+.todo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Four columns */
+    gap: 1rem; /* Gap between items */
+}
+
+@media (max-width: 1024px) {
+    .todo-grid {
+        grid-template-columns: repeat(2, 1fr); /* Two columns for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .todo-grid {
+        grid-template-columns: 1fr; /* Single column for mobile */
+    }
 }

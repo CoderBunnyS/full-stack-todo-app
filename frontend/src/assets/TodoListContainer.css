@@ -36,21 +36,21 @@ ul {
 
 .todo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr); /* Four columns */
+    gap: 1.5rem; /* Gap between items */
     justify-items: center;
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 1024px) {
     .todo-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* Two columns for tablets */
     }
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 768px) {
     .todo-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: 1fr; /* Single column for mobile */
     }
 }
 
@@ -64,10 +64,12 @@ ul {
     justify-content: space-between;
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
-    height: 100%;
+    height: 200px; /* Fixed height for uniformity */
     overflow: hidden;
-    max-height: 150px;
     position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%; /* Ensure the todo items fill the column */
 }
 
 .todo-item:hover {
@@ -78,11 +80,10 @@ ul {
 .todo-item .todo-content {
     display: inline-block;
     margin-left: 0.5rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #333; /* Ensure text color is visible */
+    white-space: nowrap; /* Ensures text does not wrap */
+    overflow: hidden; /* Hides overflow text */
+    text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
 }
 
 .todo-item .todo-content.line-through {

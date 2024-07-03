@@ -217,7 +217,7 @@ const TodoListContainer = ({ nonce }) => {
         <Droppable droppableId="droppable">
           {(provided) => (
             <div
-              className="todo-grid"
+              className="todo-grid flex flex-wrap"
               {...provided.droppableProps}
               ref={provided.innerRef}
               nonce={nonce}
@@ -240,7 +240,6 @@ const TodoListContainer = ({ nonce }) => {
                       <TodoItem
                         todo={todo}
                         onComplete={handleToggleCompleteTodo}
-                        onEdit={handleEditInit}
                         onDelete={handleDeleteTodo}
                         nonce={nonce}
                       />

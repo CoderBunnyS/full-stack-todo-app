@@ -1,7 +1,7 @@
 import React from 'react';
 import '../assets/TodoItem.css';
 
-const TodoItem = ({ todo, onComplete, onEdit, onDelete, nonce }) => {
+const TodoItem = ({ todo, onComplete, onDelete }) => {
   const handleCheckboxClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -9,11 +9,13 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete, nonce }) => {
   };
 
   return (
-    <li className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4 relative">
+    <li 
+      className="todo-item bg-white shadow-lg rounded-lg p-4 flex flex-col justify-between mb-4 relative cursor-pointer hover:bg-gray-100"
+      title="Click to edit this task"
+    >
       <div
         className="color-indicator"
         style={{ backgroundColor: todo.color }}
-        nonce={nonce}
       ></div>
       <div>
         <input
@@ -22,9 +24,8 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete, nonce }) => {
           onChange={handleCheckboxClick}
           className="mr-2"
           onClick={(e) => e.stopPropagation()}
-          nonce={nonce}
         />
-        <span className={`todo-content ${todo.completed ? 'line-through' : ''}`} nonce={nonce}>
+        <span className={`todo-content ${todo.completed ? 'line-through' : ''}`}>
           {todo.content}
         </span>
       </div>
@@ -32,20 +33,9 @@ const TodoItem = ({ todo, onComplete, onEdit, onDelete, nonce }) => {
         <button
           onClick={(e) => {
             e.stopPropagation();
-            onEdit(todo);
-          }}
-          className="modal-edit-button"
-          nonce={nonce}
-        >
-          Edit
-        </button>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
             onDelete(todo._id);
           }}
           className="modal-delete-button"
-          nonce={nonce}
         >
           Delete
         </button>

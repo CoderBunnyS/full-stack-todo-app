@@ -9,7 +9,7 @@ import '../assets/TodoListContainer.css';
 import '../index.css';
 
 const TodoListContainer = ({ nonce }) => {
-  const { getAccessTokenSilently, logout } = useAuth0();
+  const { getAccessTokenSilently, logout, loginWithRedirect, isAuthenticated } = useAuth0();
   const [todos, setTodos] = useState([]);
   const [filteredTodos, setFilteredTodos] = useState([]);
   const [setIsEditing] = useState(false);
@@ -36,8 +36,10 @@ const TodoListContainer = ({ nonce }) => {
       }
     };
 
-    fetchTodos();
-  }, [getAccessTokenSilently]);
+    if (isAuthenticated) {
+      fetchTodos();
+    }
+  }, [getAccessTokenSilently, isAuthenticated]);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -171,13 +173,23 @@ const TodoListContainer = ({ nonce }) => {
     <div className={`container max-w-full ${isModalOpen ? 'modal-open' : ''}`}>
       <div className="header flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-white">My DoListify Tasks</h1>
-        <button
-          onClick={() => logout({ returnTo: window.location.origin })}
-          className="logout-button py-2 px-4 rounded"
-          nonce={nonce}
-        >
-          Logout
-        </button>
+        {isAuthenticated ? (
+          <button
+            onClick={() => logout({ returnTo: window.location.origin })}
+            className="logout-button py-2 px-4 rounded"
+            nonce={nonce}
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            onClick={() => loginWithRedirect()}
+            className="login-button py-2 px-4 rounded"
+            nonce={nonce}
+          >
+            Login
+          </button>
+        )}
       </div>
       <div className="form-sort-container">
         <AddTodoForm onAdd={handleAddTodo} inputPlaceholder="Add a new Do Task..." buttonText="Add a DoListify Task" nonce={nonce} />

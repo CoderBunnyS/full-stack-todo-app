@@ -9,7 +9,7 @@ import './index.css';
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
   console.log('Is authenticated:', isAuthenticated);
-  
+
   if (isLoading) {
     return <div>Loading...</div>;
   }

@@ -1,0 +1,163 @@
+.todo-item {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 4.5rem;
+    transition: transform 0.3s, ease;
+    color: #333; /* Ensure text color is visible */
+    cursor: pointer;
+    position: relative; /* Added for positioning the color indicator */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    height: 200px; /* Fixed height */
+    width: 100%; /* Ensures the item takes full width of the grid column */
+}
+
+.todo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
+    background-color: #f1f1f1;
+}
+
+.todo-item .todo-title {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.todo-item .todo-content {
+    display: inline-block;
+    margin-left: 0.5rem;
+    color: #333; /* Ensure text color is visible */
+    white-space: nowrap; /* Ensures text does not wrap */
+    overflow: hidden; /* Hides overflow text */
+    text-overflow: ellipsis;
+}
+
+.todo-item .todo-content.line-through {
+    text-decoration: line-through;
+}
+
+.todo-item button {
+    background-color: #9b5de5;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 1rem;
+    padding: 5px 7px;
+    border-radius: 5px;
+    color: white; 
+}
+
+.todo-item button:hover {
+    text-decoration: underline;
+}
+
+/* Color Indicator */
+.color-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%; /* Change to 0 for a square */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 2px solid #fff; /* Optional: adds a border around the indicator */
+}
+
+/* Modal Styles */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: black;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+}
+
+.modal-content textarea,
+.modal-content input[type="text"],
+.modal-content input[type="date"],
+.modal-content input[type="color"],
+.modal-content input[type="range"] {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.modal-content .subtasks ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.modal-content .subtasks li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.modal-content .subtasks input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.modal-save-button,
+.modal-delete-button {
+    background-color: #6a0dad;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+.modal-save-button:hover,
+.modal-edit-button:hover,
+.modal-delete-button:hover {
+    background-color: #0056b3;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}

@@ -2,7 +2,7 @@
     background-color: #fff;
     border-radius: 1rem;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
+    padding: 4.5rem;
     transition: transform 0.3s, ease;
     color: #333; /* Ensure text color is visible */
     cursor: pointer;
@@ -11,6 +11,8 @@
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    height: 200px; /* Fixed height */
+    width: 100%; /* Ensures the item takes full width of the grid column */
 }
 
 .todo-item:hover {
@@ -28,9 +30,9 @@
     display: inline-block;
     margin-left: 0.5rem;
     color: #333; /* Ensure text color is visible */
-    white-space: pre; /* Ensures text does not wrap */
+    white-space: nowrap; /* Ensures text does not wrap */
     overflow: hidden; /* Hides overflow text */
-    text-overflow: clip;
+    text-overflow: ellipsis;
 }
 
 .todo-item .todo-content.line-through {
@@ -38,7 +40,7 @@
 }
 
 .todo-item button {
-    background-color: #6a0dad;
+    background-color: #9b5de5;
     border: none;
     cursor: pointer;
     font-weight: bold;
@@ -158,23 +160,4 @@
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}
-}
-
-/* Grid Container for Todos */
-.todo-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Four columns */
-    gap: 1rem; /* Gap between items */
-}
-
-@media (max-width: 1024px) {
-    .todo-grid {
-        grid-template-columns: repeat(2, 1fr); /* Two columns for tablets */
-    }
-}
-
-@media (max-width: 768px) {
-    .todo-grid {
-        grid-template-columns: 1fr; /* Single column for mobile */
-    }
 }

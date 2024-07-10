@@ -40,6 +40,12 @@ ul {
     gap: 1.5rem; /* Gap between items */
     justify-items: center;
     width: 100%;
+    max-width: 100%;
+}
+@media (max-width: 1390px) {
+    .todo-grid {
+        grid-template-columns: repeat(3, 1fr); /* Two columns for tablets */
+    }
 }
 
 @media (max-width: 1024px) {
@@ -58,18 +64,16 @@ ul {
     background-color: #fff;
     border-radius: 1rem;
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
+    padding: 4.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
-    height: 200px; /* Fixed height for uniformity */
+    height: 200px; /* Fixed height */
+    width: 100%; /* Ensures the item takes 20% of the row */
     overflow: hidden;
     position: relative;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 100%; /* Ensure the todo items fill the column */
 }
 
 .todo-item:hover {
@@ -83,7 +87,7 @@ ul {
     color: #333; /* Ensure text color is visible */
     white-space: nowrap; /* Ensures text does not wrap */
     overflow: hidden; /* Hides overflow text */
-    text-overflow: ellipsis; /* Adds ellipsis (...) for overflow text */
+    text-overflow: ellipsis;
 }
 
 .todo-item .todo-content.line-through {

@@ -9,7 +9,7 @@
     "start:backend": "npm start --prefix backend",
     "start:frontend": "npm start --prefix frontend",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "build": "npm run install:all && npm run build:backend && npm run build:frontend"
+    "build": "npm run install:all && npm run build:frontend" 
   },
   "dependencies": {
     "concurrently": "^8.2.2",

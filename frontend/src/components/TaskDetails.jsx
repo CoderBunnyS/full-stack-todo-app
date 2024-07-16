@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../assets/TaskDetails.css";
 
 const colorOptions = [
@@ -27,7 +27,7 @@ const progressOptions = [
   { value: 100, label: "100%" },
 ];
 
-const TaskDetails = ({ todo, onClose, onSave, nonce }) => {
+const TaskDetails = ({ todo, onClose, onSave, onComplete, nonce }) => {
   const [activeTodoContent, setActiveTodoContent] = useState(todo.content);
   const [activeTodoDetails, setActiveTodoDetails] = useState(todo.details || "");
   const [newSubtask, setNewSubtask] = useState("");
@@ -40,10 +40,6 @@ const TaskDetails = ({ todo, onClose, onSave, nonce }) => {
       : new Date().toISOString().substr(0, 10)
   );
   const [progress, setProgress] = useState(todo.progress || 0);
-
-  useEffect(() => {
-    console.log("Category Color updated to: ", categoryColor);
-  }, [categoryColor]);
 
   const handleSubtaskAdd = (e) => {
     if (e.key === "Enter" && newSubtask.trim()) {
@@ -76,9 +72,13 @@ const TaskDetails = ({ todo, onClose, onSave, nonce }) => {
     onClose();
   };
 
+  const handleComplete = () => {
+    onComplete(todo._id, !todo.completed);
+    onClose();
+  };
+
   const handleColorChange = (e) => {
     const selectedColor = e.target.value;
-    console.log("Selected Color: ", selectedColor);
     setCategoryColor(selectedColor);
   };
 
@@ -202,9 +202,17 @@ const TaskDetails = ({ todo, onClose, onSave, nonce }) => {
             </label>
           </div>
         </div>
-        <button onClick={handleSave} className="modal-save-button" nonce={nonce}>
-          Save
-        </button>
+        <div className="task-details-buttons">
+          <button onClick={handleSave} className="modal-save-button" nonce={nonce}>
+            Save
+          </button>
+          <button onClick={handleComplete} className="modal-complete-button" nonce={nonce}>
+            {todo.completed ? 'Undo Complete' : 'Complete'}
+          </button>
+          <button onClick={onClose} className="modal-close-button" nonce={nonce}>
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );

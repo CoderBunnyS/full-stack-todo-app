@@ -11,6 +11,32 @@
   overflow: hidden; /* Prevent background scrolling */
 }
 
+.task-details-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.modal-save-button, .modal-complete-button, .modal-close-button {
+  background-color: #6a0dad;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 10%;
+}
+
+.modal-complete-button {
+  background-color: #6a0dad;
+}
+
+.modal-save-button:hover, .modal-complete-button:hover, .modal-close-button:hover {
+  background-color: #0056b3;
+}
+
+
 .task-details-content {
   background-color: white;
   padding: 20px;

@@ -73,7 +73,7 @@ const Hero = ({ nonce }) => {
             <p>Visualize your progress and stay motivated with visual aids.</p>
           </div>
           <div className="feature-item" onClick={() => openModal('modal5')}>
-            <img src="https://i.ibb.co/4tHyh83/cross-platform.png" alt="Cross-Device Sync Icon" />
+            <img src="https://i.ibb.co/fMC8dHS/cross-platform-1.png" alt="Cross-Device Sync Icon" />
             <h3>Cross-Device Access</h3>
             <p>Access your tasks from any device, anywhere, anytime without downloading an app.</p>
           </div>

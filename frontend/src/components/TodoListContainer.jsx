@@ -269,6 +269,7 @@ const TodoListContainer = ({ nonce }) => {
           todo={activeTodo}
           onClose={closeTodoDetails}
           onSave={saveTodoDetails}
+          onComplete={handleToggleCompleteTodo} // Pass the toggle complete handler
           nonce={nonce}
         />
       )}

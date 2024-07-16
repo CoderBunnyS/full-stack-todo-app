@@ -1,6 +1,20 @@
+
 {
+  "name": "dolistify",
+  "version": "1.0.0",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "start:backend": "npm start --prefix backend",
+    "start:frontend": "npm start --prefix frontend",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "build": "npm run build --prefix frontend",
+    "heroku-postbuild": "npm run install:all && npm run build"
+  },
   "dependencies": {
+    "concurrently": "^8.2.2",
     "react-router-dom": "^6.23.1",
     "react-switch": "^7.0.0"
   }
 }
+
+
